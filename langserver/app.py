@@ -1,72 +1,27 @@
-from langchain_community.llms import Ollama
-import streamlit as st
-from langchain_community.document_loaders import TextLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
 import os
-from langchain_core.prompts import PromptTemplate
-import json
-from langchain_core.runnables import RunnablePassthrough
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate, FewShotPromptTemplate
-import chromadb
-from chromadb.config import Settings
+import sys
 
-loader = TextLoader(r"E:\Dev\projects\MOAI_chatbot\data\platform_information.txt")
-pages = loader.load()
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=500,
-    chunk_overlap=50
-)
+import streamlit as st
+from langserver.load_information import docs
+from langserver.prompt import rag_chain
+from langserver.load_model import model
+from langserver.utils import print_message
 
-docs = text_splitter.split_documents(pages)
+st.set_page_config(page_title="MOAI chatbot", page_icon="🤖")
+st.title("MOAI 챗봇")
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="BAAI/bge-m3",
-    model_kwargs={"device": "cuda"},
-    encode_kwargs={"normalize_embeddings": True}
-)
+if "messages" not in st.session_state:
+    st.session_state["messages"] = []
 
-chroma_client = chromadb.PersistentClient(path="E:\Dev\projects\MOAI_chatbot\chroma_data")
+# 이전 대화를 출력해주는 코드
+print_message()
 
-print(chroma_client.heartbeat())
-
-vectorstore = Chroma.from_documents(docs, embeddings, client=chroma_client)
-retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
-
-template = '''
-<context>{context}</context>
-<context> 의 내용을 바탕으로 질문에 답변해주세요. 간결하게 답변해주세요. 질문과 관련된 답변 외의 내용은 절대 답변하지 마세요.
-
-{question}
-'''
-
-prompt = ChatPromptTemplate.from_template(template)
-
-def format_docs(docs):
-    return '\n\n'.join([d.page_content for d in docs])
-
-model = Ollama(
-    model="llama3-ko",
-    temperature=0
-)
-
-st.title("MOAI Chatbot")
-
-st.write("안녕하세요. 저는 MOAI 챗봇입니다. 무엇을 도와드릴까요?")
-
-user_input = st.text_input("사용자 입력")
-
-if st.button("전송"):
-    if user_input:
-        with st.spinner("전송중..."):
-            rag_chain = (
-                {'context': retriever | format_docs, 'question': RunnablePassthrough()}
-                | prompt
-                | model
-                | StrOutputParser()
-            )
-
-            st.write(rag_chain.invoke(user_input))
+if user_input := st.chat_input("메시지를 입력하세요"):
+    st.chat_message("user").write(f"{user_input}")
+    st.session_state["messages"].append(("user", user_input))
+    with st.spinner("전송중..."):
+        msg = rag_chain.invoke(user_input)
+        st.chat_message("MOAI").write(msg)
+        st.session_state["messages"].append(("MOAI", msg))

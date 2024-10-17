@@ -1,0 +1,490 @@
+# 시스템 소개
+
+## Vision system 구성
+
+1. 시스템의 주요 특징
+    1. 검사 관련 기능을 모듈화 하여, 사용자 개별 설정 및 변경 적용 가능
+    2. Windows 기반 S/W 으로 구현되어 추가 및 확장 용이
+    3. 고화질 영상 획득을 통해, 안정적인 측정이 가능
+    4. 필요에 따라 검사 조건 변경, 카메라 추가 등이 용이함
+    5. 2개 이상의 검사 항목에 대해 복수의 검사 처리가 가능
+2. 시스템 일반 사항
+    1. 시스템 명: 한화큐셀 통합 비전 검사 시스템
+    2. 검사기 일반 사양
+        - 카메라와 조명을 사용하여 외관 검사 및 위치 보정 값 계산을 수행한다.
+    3. 검사기 구성
+        - Camera와 컨트롤러가 포함된 Led 조명으로 구성됨
+        [시스템소개_001]
+
+# 소프트웨어 소개
+
+## 1. 공통 UI
+
+- [공통UI_001] 은 Vision S/W 실행 시 생성되는 화면으로 Main 화면에 해당한다.
+- **①**과 **②**는 공통으로 사용되는 UI로 창 전환을 하여도 변화가 없다
+1. 상단 공통 UI
+    1. [공통UI_002] : 회사 로고 표시
+    2. [공통UI_003] : Vision S/W 와 통신 연결 상태 표시
+        1. PC 연결 상태
+            1. 두 가지의 상태가 표시되며 내용은 다음과 같다.
+                - [공통UI_004] : Master / Slave PC 와 연결된 상태
+                - [공통UI_005] : Master / Slave PC 와 연결이 되지 않은 상태
+        2. Camera 연결 상태
+            1. 세 가지의 상태로 표시되며 내용은 다음과 같다.
+                - [공통UI_006] : Camera 와 연결된 상태
+                - [공통UI_007] : 가상의 Camera (Simulation) 와 연결된 상태 ( 해당 상태일 경우 실제 카메라로 영상 취득은 되지 않음)
+                - [공통UI_008] : Camera 와 연결이 해제된 상태
+        3. PLC 연결 상태
+            1. 세 가지의 상태로 표시되며 내용은 다음과 같다.
+                - [공통UI_009] : PLC 와 연결된 상태
+                - [공통UI_010] : 가상의 PLC (Simulation) 와 연결된 상태 ( 해당 상태일 경우 PLC 와의 통신은 되지 않는다. )
+                - [공통UI_011] : PLC 와 연결이 해제된 상태
+        4. [공통UI_012] : Vision PC 상태를 나타낸다
+            1. CPU : Vision PC 의 CPU 사용량 표시
+            2. RAM : Vision PC 의 RAM 사용량 표시
+            3. SSD : Vision PC 의 C 드라이브 사용량 표시
+            4. HDD : Vision PC 의 D 드라이브 사용량 표시
+        5. [공통UI_013] : Vision S/W 현재 version 표시
+        6. [공통UI_014] : Manual 호출 버튼
+        7. [공통UI_015] : 현재 날짜와 시간
+2. 우측 공통 UI : VIsion S/W 의 기본적인 기능을 사용하기 위한 메뉴들이 구성되어 있음
+    1. [공통UI_016] : 현재 모델과 공정 이름이 표시
+    2. [공통UI_017] : Navigation Bar : Vision S/W 화면 전환 기능
+        - [공통UI_018] : Main 화면으로 전환
+        - [공통UI_019] : Calibration 화면으로 전환
+        - [공통UI_020] : Model 화면으로 전환
+        - [공통UI_021] : Monitor 화면으로 전환
+        - [공통UI_022] : Setup 화면으로 전환
+        - [공통UI_023] : Alarm 화면으로 전환
+        - [공통UI_024] : History 화면으로 전환
+    3. [공통UI_025] : Vision S/W 구동 상태를 전환. 마우스 클릭으로 상태 변경
+        - Manual : 모델, 설정에서 파라미터 변경과 Camera Live 영상 취득을 할 수 있다. 설비 구동 중 Vision S/W가 MANUAL이라면 PLC 신호를 받지 않는다
+        - Auto : 설비 구동 시 Vision 검사를 진행하며 PLC 로 결과 데이터를 전달한다. 파라미터 변경 및 Camera Live 영상 취득을 할 수 없다
+    4. [공통UI_026] : Batch 기능을 사용할 수 있는 창을 생성
+    5. [공통UI_027] : 결과 데이터를 볼 수 있는 Result 창 생성
+    6. [공통UI_028] : Simulation 을 위한 가상의 PLC 창을 생성
+    7. [공통UI_029] : Vision S/W 의 Data 및 Sequence 를 초기화
+    8. [공통UI_030] : Vision S/W 종료
+
+## 2. Main UI
+
+- [MainUI_001] 은 우측 공통 UI 에서 Main 버튼을 눌렀을 때 전환되는 화면
+- Vision S/W 에서 검사된 이미지 및 결과 데이터를 볼 수 있음
+1. Display page tab : Vision S/W 에서 촬영된 제품 영상이 표시되며 결함이 있을 경우 결함 위치를 표시
+    - [MainUI_002] : 하나의 화면에 여러 개의 Display를 보여줄 경우 Display 안의 Image는 크기가 작고 여러개의 Display로 가시성이 떨어진다. 이러한 문제 해결을 위해 여러 개의 Page를 만들고 해당 Page로 이동할 수 있는 것이 Display Page Tab 이다.
+    - [MainUI_003]
+        - [MainUI_004] : Display Page 분리 (Page 1)
+        - [MainUI_005] : Display Page 분리 (Page 2)
+        - [MainUI_006] : Display Page 분리 (Page 3)
+2. 검사 데이터 출력 창 : Vision S/W 에서 검사한 결과 데이터가 출력되는 창
+    - Unit (공정) 별로 Insp result 와 Align result 로 생성이 되며 마지막 두 개의 Tab 은 Inspection 과 Align 의 spec 정보로 출력됨
+    - Unit 이름은 Model UI 의 Unit 의 title 이름으로 변경이 가능
+    - [MainUI_007] : Insp result
+        - 길이 및 외관 검사의 치수나 판정 데이터를 표시
+        - Model, Start time (PLC start 데이터 받은 시간), Module ID, Result 항목은 고정이며, 이후 항목들은 Unit(공정) 별 검사 항목에 따라 검출된 데이터 값이 출력됨
+        - 검사 결과가 NG 일 경우, Result 와 NG data 는 붉은색으로 표시됨
+    - [MainUI_008] : Align result
+        - 제품 Align 후 해당 Align 의 판정과 보정값을 표시. 판정은 Align spec 으로 결정되며, 판정이 NG 일 경우 빨간 글씨로 표기
+        - Target X, Target Y, Target T : PLC 로 전달되는 Align 보정값 (Revision + Offset)
+        - Revision X, Revision Y, Target T : Vision S/W Align Algorithm 으로 계산된 보정값
+        - Offset X, Offset Y, Offset T : Align 위치를 미세 조정하기 위한 기구적 위치
+    - [MainUI_009] : Inspection spec
+        - 현재 적용된 측정 또는 외관 검사 항목의 spec 을 표시
+        - Model 창에서 설정한 spec 으로 해당 spec 에 만족해야 OK 로 판정
+        - Unit : 공정 항목 내에 측정 또는 외관 검사 Tool 항목 표시
+        - Insp Name : 측정 또는 외관 검사 tool 의 검사 방법 표시
+            - Limit : standard 기준 하한 spec 표시. 해당 값 미만의 값은 NG 판정
+        - Standard : 기준 spec 표시
+            - Limit : standard 기준 상한 spec 표시. 해당 값 초과의 값은 NG 판정
+    - [MainUI_010] : Align spec
+        - 현재 적용된 Align 항목의 spec 표시
+        - Model 창에서 설정한 spec 으로 해당 spec 에 만족해야 OK 로 판정
+        - Unit : 공정 항목 내에 align tool 항목 표시
+        - Align name : Aligner tool 의 title 표시
+            - Limit X, - Limit Y, - Limit T : PLC 로 전달되는 align 보정값 Target X, Target Y, Target T 의 하한 spec 표시. 해당 값 미만의 값은 NG 판정
+            - Limit X, + Limit Y, + Limit T : PLC 로 전달되는 align 보정값 Taget X, Taget Y, Taget T 의 상한 spec 표시. 해당 값 초과의 값은 NG 판정
+
+## 3. Calibration UI [CalibrationUI_001]
+
+- 영상의 1Pixel 당 실제 거리를 계산하여 픽셀당 거리(mm)의 비율을 구할 수 있다.
+- Align 보정값 계산 시 보정하는 로봇의 회전 중심을 구할 때 사용되는 화면이다.
+- Calibration 화면에서는 영상을 출력하여 거리 측정 등의 작업을 할 수 있다.
+- 여러 개의 카메라에서 영상을 동시에 출력할 수 있다.
+- 필요에 따라 보조선을 긋거나, 조명 밝기를 변경하는 작업도 가능하다.
+1. Display
+[CalibrationUI_002] : Camera grab 또는 Live 영상이 출력되는 Display
+2. Display count
+[CalibrationUI_003]
+    - Display 수량을 증가시키며 Camera의 실시간 영상을 볼 수 있다.
+    - Display 별 영상에서 길이 측정을 진행 할 수 있다. (단, Resolution Data가 있어야 정확한 실측이 가능하다)
+    - [CalibrationUI_004] : Display 수량을 변경할 수 있다. 최소 개수는 1이다.
+    - [CalibrationUI_005] : 생성한 Display로 출력할 Camera를 선택한다. 실시간 영상을 보기 위해서 LiveUse가 체크되어 있어야 한다.
+    - [CalibrationUI_006] : LiveUse가 체크되어 있는 Camera들의 실시간 영상을 Display에 출력한다. Mouse Click으로 활성화가 되며 [CalibrationUI_007] 그림과 같이 변경된다. 사용을 안 할 경우 다시 Mouse Click을 하면 원상태로 돌아온다.
+    - [CalibrationUI_008] : Calibration Data가 있을 경우 사용 가능하다. Mouse Click으로 활성화가 되며 [CalibrationUI_009] 그림과 같이 변경된다. 활성화 상태에서 Display에서 측정 하고자 하는 위치를 Mouse Click & Drag로 측정을 할 수 있다. Drag 시 Display엔 삼각형이 그려지며 삼각형의 세 개의 꼭지점으로 길이를 측정한다.
+    - [CalibrationUI_010] : 위의 MEASURE 기능 사용 시 측정된 길이의 데이터가 출력된다.
+3. 조명 컨트롤러
+[CalibrationUI_011]
+    - 조명 컨트롤러와 조명 컨트롤러의 채널을 선택 후 조명 값을 변경할 수 있다.
+    - [CalibrationUI_012] : 두 종류의 조명 컨트롤러가 있으며 사용을 위해선 SETUP UI에서 조명 컨트롤러의 사용을 먼저 설정해야 한다.
+    - [CalibrationUI_013] : 조명 컨트롤러 종류에 따라 채널의 개수가 다르다. 변경하고자 하는 채널을 선택할 수 있다.
+    - [CalibrationUI_014] : 파란색 바를 Mouse Click & Drag 로 움직일 수 있으며 움직인 양 만큼 조명 값이 변경 된다.
+    - [CalibrationUI_015] : 값을 입력한 수치로 조명 값이 변경 된다. 위의 파란색 바를 움직여도 해당 값이 변경 된다. 최소 0에서 최대 255 까지 의 단계로 이루어져 있다.
+4. 수동 calibration
+[CalibrationUI_016]
+    - Align 을 하는 공정에서 보정을 하는 Robot의 회전 중심을 구할 때 사용된다. (수동 Calibration)
+    - 수동 Calibration 을 하기 위해 Model 창에서 Camera의 Resolution Data 를 구해야 하며 Detect의 Mark Index도 설정해야 한다.
+    - [CalibrationUI_017] : 수동 Calibration을 할 수 있는 Camera 항목이 Tab 으로 되어있다.
+    - [CalibrationUI_018] : Camera 를 TargetID 로 가지고 있는 Detect 항목이 있다. Calibration 하고자 하는 Detect 을 선택할 수 있으며, 이미 Calibration 을 했다면 Calibration Data 를 볼 수 있다.
+    - [CalibrationUI_019] : SELECTED DETECT에서 선택한 Detect의 Align Type 정보를 볼 수 있다. 해당 설정은 Model 창에서 변경 가능하다.
+    - [CalibrationUI_020] : SELECTED DETECT에서 선택한 Detect의 Mark Index 정보를 볼 수 있다. 해당 설정은 Model 창에서 변경 가능하다.
+    - [CalibrationUI_021] : Calibration 을 진행할 이미지의 가로 Pixel 크기를 입력한다. Image Load를 할 경우 또는 Calibration Data가 있을 경우 IMAGE WIDTH 를 볼 수 있다.
+    - [CalibrationUI_022] : Calibration 을 진행할 이미지의 세로 Pixel 크기를 입력한다. Image Load를 할 경우 또는 Calibration Data가 있을 경우 IMAGE HEIGHT 를 볼 수 있다.
+    - [CalibrationUI_023] : Calibration 을 할 제품의 실제 가로 길이를 입력한다. Calibration Data가 있을 경우 PRODUCT WIDTH 를 볼 수 있다.
+    - [CalibrationUI_024] : Calibration 을 할 제품의 실제 세로 길이를 입력한다. Calibration Data가 있을 경우 PRODUCT HEIGHT 를 볼 수 있다.
+    - [CalibrationUI_025] : Align 보정을 하는 Robot의 회전 중심 좌표 중 X축을 입력 값만큼 이동 시킨다. 이동이 필요 없을 경우 0을 입력한다. 입력 데이터의 단위는 mm이다.
+    - [CalibrationUI_026] : Align 보정을 하는 Robot의 회전 중심 좌표 중 Y축을 입력 값만큼 이동 시킨다. 이동이 필요 없을 경우 0을 입력한다. 입력 데이터의 단위는 mm이다.
+    - [CalibrationUI_027] : Camera의 Live 영상이 아닌 저장되어 있는 이미지로 Calibration 을 진행할 경우 선택한 이미지를 불러올 수 있다.
+    - [CalibrationUI_028] : 직교 좌표계 또는 Robot의 회전 중심 중 구하고자 하는 Calibration Data 를 선택하여 구할 수 있는 창을 생성한다.
+        - **Manual cal 을 선택한 경우**
+        [CalibrationUI_029]
+        - [CalibrationUI_030] : Create Coordinate(직교 좌표계) 또는 Theta Calibration (Robot의 회전 중심) 중 구하고자 하는 항목을 선택한다.
+            - [CalibrationUI_031] : 체크 시 Display에 포인트가 생기며 Mouse Click 으로 포인트를 이동 시킬 수 있다.
+            - [CalibrationUI_032] : Use Graphic Point 체크 시 생성된 포인트의 Pixel X값을 출력한다.
+            - [CalibrationUI_033] : Use Graphic Point 체크 시 생성된 포인트의 Pixel Y값을 출력한다.
+        - **Theta calibraiton 을 선택한 경우**
+        [CalibrationUI_034]
+            - [CalibrationUI_035] : 체크 시 Display에 포인트가 생기며 Mouse Click 으로 포인트를 이동 시킬 수 있다.
+            - [CalibrationUI_036] : Use Graphic Point 체크 시 생성되는 두 개의 포인트 중 빨간 포인트의 위치 이동 시 선택한다.
+            - [CalibrationUI_037] : Use Graphic Point 체크 시 생성되는 두 개의 포인트 중 파란 포인트의 위치 이동 시 선택한다.
+            - [CalibrationUI_038] : Use Graphic Point 체크 시 생성된 빨간 포인트의 Pixel X값을 출력한다.
+            - [CalibrationUI_039] : Use Graphic Point 체크 시 생성된 빨간 포인트의 Pixel Y값을 출력한다.
+            - [CalibrationUI_040] : Use Graphic Point 체크 시 생성된 파란 포인트의 Pixel X값을 출력한다.
+            - [CalibrationUI_041] : Use Graphic Point 체크 시 생성된 파란 포인트의 Pixel Y값을 출력한다.
+            - [CalibrationUI_042] : -Point와 +Point의 Theta 차이를 입력한다.
+        - **Move Point 항목 [CalibrationUI_043] : Display에 생성된 Point 를 미세 조정하여 위치를 변경할 경우 사용된다.**
+            - [CalibrationUI_044] : Click 시 Display 생성된 Point를 현재 위치에서 위로 이동 시킨다.
+            - [CalibrationUI_045] : Click 시 Display 생성된 Point를 현재 위치에서 아래로 이동 시킨다.
+            - [CalibrationUI_046] : Click 시 Display 생성된 Point를 현재 위치에서 좌측으로 이동 시킨다.
+            - [CalibrationUI_047] : Click 시 Display 생성된 Point를 현재 위치에서 우측으로 이동 시킨다.
+            - [CalibrationUI_048] : Point의 이동량을 1Pixel로 움직일지 사용자가 지정한 만큼 움직일 지 선택할 수 있다.
+            - [CalibrationUI_049] : Display에 생성된 Point를 입력된 값만큼 회전시킬 수 있다.
+        - [CalibrationUI_050] : Create Coordinate 또는 Theta Calibration 중 선택된 항목으로 Calibration Data를 계산 및 생성한다.
+        - [CalibrationUI_051] : 해당 창을 닫는다.
+    - [CalibrationUI_052] : 입력되어있는 정보로 수동 Calibration을 진행한다. Click 시 Calibration을 진행 할 것인지에 대한 알림창이 생성된다. [CalibrationUI_053] 를 누를 경우 두번째 알림창이 발생되며 물음에 맞는 버튼을 선택하면 Calibration이 진행된다.
+5. Display grid
+[CalibrationUI_054]
+    - [CalibrationUI_055] : CENTER 선택 시 Display의 4등분하는 수직선이 생성된다. 수직선의 색상은 총 4가지의 색상으로 변경 가능하다.
+    - [CalibrationUI_056] : CUSTOM 선택 시 사용자가 Display 상에서 Mouse Click을 할 경우 해당 위치로 Display를 4등분하는 수직선이 생성된다. 수직선의 색상은 총 4가지의 색상으로 변경 가능하다. CUSTOM이 선택되어 활성화 된 상태에서 [CalibrationUI_057]과 [CalibrationUI_058]이 활성화가 된다. 두 개의 버튼은 현재 사용자가 Click하여 생성한 수직선에 대칭되는 위치에 선을 생성한다.
+
+## 4. Model UI [ModelUI_001]
+
+1. Model tab
+    1. Model device
+    [ModelUI_002]
+        - [ModelUI_003] : Unit을 추가한다. Unit은 모델을 만들기 위해 반드시 필요하다. 버튼을 누를 경우 XI. 의 위치에 Unit이 생성된다.
+        - [ModelUI_004]: 현재 사용중인 Model Directory를 open한다.
+        - [ModelUI_005] : Back UP을 클릭하여 저장한 마지막 모델로 복구한다.
+        - [ModelUI_006] : 현재 사용중인 모델을 임시로 백업한다.
+        - [ModelUI_007] : 현재까지 작업된 Model Device를 저장한다.
+        - [ModelUI_008] : 세부 설정 창을 연다.
+        - [ModelUI_009] : 전단, 후단 AOI에서 사용되는 기능으로 Slave PC에서 작업된 Model Device의 내용을 Master PC에서 하나의 Model Device로 합칠 때 사용하는 기능이다.
+        - [ModelUI_010] : 검색 필터를 초기화한다.
+        - [ModelUI_011] : Unit 단위로 Model Device 항목을 Display 한다.
+        - [ModelUI_012] : Unit 안의 Camera, Image, Detect, Aligner, Inspection, Result 중 선택된 항목만 Display 한다.
+        - [ModelUI_013] : 사용자가 직접 입력하여 검색을 할 수 있다.
+        - [ModelUI_014] : Unit, Camera, 조명 컨트롤러, Image, Detect, Aligner, Inspection, Result 등의 Device를 추가/삭제/수정할 수 있으며 현재 작업된 항목들이 나열되어 있다. 최초 모델 작업이 필요할 경우 Common과 Cim 항목만 있으며 Unit을 추가해야 한다. Unit을 추가하면 Camera와 Image, Result를 추가할 수 있다. Camera에는 Light와 Detect을 추가할 수 있고, Image에서 Detect, Aligner, Inspection을 추가할 수 있다. Detect에선 Image Processing을 추가할 수 있으며, Aligner와 Inspection은 Detect을 링크하여 데이터를 가져올 수 있고, Result는 Aligner와 Inspection을 링크하여 데이터를 가져올 수 있다.
+    2. Model list
+    [ModelUI_015]
+        - [ModelUI_016] : 현재 적용된 Model 항목 표시
+        - [ModelUI_017] : 현재 선택된 Model 항목 표시
+        - [ModelUI_018] : Model 항목을 갱신한다.
+        - [ModelUI_019] : Select Model을 Current Model로 변경한다.
+        - [ModelUI_020] : Select Model을 삭제한다. Current Model은 삭제가 불가능하다.
+        - [ModelUI_021] : Model 항목들이 나열되어 있다.
+        - [ModelUI_022] : 사용자가 원하는 이름을 입력 후 Model 항목이 나열된 곳 중 모델 이름이 없는 빈 위치를 선택하고 Create를 Click하면 Current Model을 복사하여 해당 위치에 Model을 생성한다. 사용자가 원하는 이름을 입력 후 Model 항목이 나열된 곳 중 Model 이름이 있는 위치를 선택하고 Rename을 Click하면 해당 이름으로 Model 이름이 변경 된다. 단, Current Model은 이름 변경이 되지 않는다.
+        - [ModelUI_023] : 이미 만들어진 Model 항목 중에서 Model의 Number 변경을 원할 경우 From과 To에 위치를 변경하고자 하는 Model을 선택 후 Select를 Click하고 Swap을 Click하면 해당 모델의 위치가 서로 변경이 된다.
+    3. Model recipe Insp
+    [ModelUI_024]
+        - [ModelUI_025] : Model Device에 생성되어 있는 Inspection의 항목을 선택할 수 있다. 선택된 항목에 한하여 데이터 변경이 가능하다.
+        - [ModelUI_026] : 선택된 Inspection의 Title, Cim Title, 상한/하한 Spec 설정 및 Offset을 값을 변경할 수 있다. 또한 이미 설정하였다면 설정되어 있는 값들도 볼 수 있다.
+        - [ModelUI_027] : Inspection에 설정값을 추가할 때 추가할 개수를 입력하고 Add를 Click하면 데이터가 개수만큼 자동 생성된다.
+        - [ModelUI_028] : 삭제할 항목을 선택한 후 Delete를 Click 하면 선택된 행의 데이터가 삭제된다.
+        - [ModelUI_029] : 작업 하기 전 상태로 돌아간다. 단, Save 버튼을 누렀을 경우 복구는 되지 않는다.
+        - [ModelUI_030] : 현재까지 작업된 내용을 저장한다.
+        - [ModelUI_031] : 사용자가 변경하고자 하는 Title을 입력 후 Title의 아무 열이나 선택한 뒤 Bach Title을 Click 하며 일괄 바꾸기가 적용된다. 단 Title은 동일이름이 들어갈 수 없기 때문에 입력한 데이터 뒤에 No가 붙어서 일괄 바꾸기가 적용된다. Clear를 누를 경우 입력했던 데이터가 삭제된다.
+        - [ModelUI_032] : 일괄 변경을 원하는 열을 선택 후 사용자가 값을 변경한 뒤 Batch Value를 Click하면 해당 값으로 일괄 변경이 된다.
+        - [ModelUI_033] : 사용 유무 변경을 원하는 Unit을 선택한다.
+        - [ModelUI_034] : 선택된 Unit에서 Inspection 항목이 나열된다. SortIndex는 MAIN UI 하단의 검사 결과를 출력할 때 순서를 변경할 수 있으며, No Display 선택 시 MAIN UI 하단의 검사 결과에서 출력을 제거할 수 있다. No Report 선택 시 PLC로 데이터 전달이 되지 않으며, Unuse는 No Display와 No Report를 둘다 체크한 것과 같은 동작을 한다.
+    4. Recipe align
+    [ModelUI_035]
+        - [ModelUI_036] : Model Device에 등록된 Aligner 중 데이터를 변경할 Aligner를 선택한다.
+        - [ModelUI_037] : 선택된 Aligner의 보정값 X, Y, T의 상한/하한 Spec 변경 및 Offset을 변경할 수 있다. 이미 설정되어 있다면 설정된 값을 볼 수 있다.
+        - [ModelUI_038] : 사용 안함
+        - [ModelUI_039] : 사용 안함
+        - [ModelUI_040] : 작업하기 전으로 데이터를 복구한다.
+        - [ModelUI_041] : 현재까지 작업된 데이터를 저장한다.
+    5. NG code setting
+    [ModelUI_042]
+        - [ModelUI_043] : 현재 설비 타입
+        - [ModelUI_044] : Name 또는 Report를 변경할 때 사용
+        - [ModelUI_045] : NCL 상의 항목들이 나열되어있다. State는 NG 판정이 났을 경우 NG 판정을 할 것인지에 대한 설정이다.
+        - [ModelUI_046] : 선택된 항목을 삭제한다.
+        - [ModelUI_047] : 선택된 위치에 데이터를 추가한다.
+        - [ModelUI_048] : 가장 마지막 위치에 데이터를 추가한다.
+        - [ModelUI_049] : 현재까지 작업된 내용을 저장한다.
+2. Model Recipe
+    1. Unit
+        - Model Device에서 Model(Recipe) 작업 상세 설명
+        - Model은 크게 Common, Cim, Unit으로 구분되어 있다.
+            - Common : Vision S/W 구동 시 공통으로 사용하는 데이터들을 다룬다
+            - Cim : Vision Data를 상위 보고할 경우(CIM 통신) 사용된다.
+            - Unit : 검사 공정 별로 Unit이 생성되며 실제 검사를 하기 위한 장치들로 구성된다.
+        - Unit은 Camera와 Image, Calibration, Result를 가질 수 있다.
+            - Camera : 해당 검사 공정의 Camera 기능을 수행한다.
+            Camera는 Indicator(지시툴),Light(조명 컨트롤러),Detect Device(특수 목적),Image Processing Tool을를 가질 수 있다.
+            - Image : Camera에서 취득된 이미지를 전달받아 검사를 수행한다. Image는 Detect, Align, Inspection을 가질 수 있다.
+                - Detect : 점,선,면등을 검출하는 검출기이다. Detect에는 Image Processing 기능을 넣을 수 있다.
+                - Align : 공정에서 보정값이 필요할 경우 사용되며 Detect으로부터 좌표 데이터를 전달받아 보정값을 계산한다. 또한 검사 위치가 동적으로 변경될 경우 특정 위치로부터 검사 위치를 자동 보정 가능한 Fixture Align 기능도 포함되어 있다.
+                - Inspection : 공정에서 측정 또는 외관 검사를 할 경우 사용되며 Detect으로부터 전달받은 검출 데이터를 조합하여 Spec에 맞는지 확인한다.
+        - Calibration : Auto Calibration 진행 시 사용된다. (PLC와 통신을 통하여 Stage 또는 Robot이 위치 이동을 하며 Camera가 영상 취득 후 Resolution 및 회전 중심을 계산)
+        - Result : 검사 완료 후 PLC로 데이터 전달 및 디스플레이 할 Align, Inspection의 데이터를 관리한다.
+        - 작업 완료 후 반드시 SAVE 버튼을 눌러야 한다.
+        
+        I. Unit 추가 [ModelUI_050]
+        
+        - 최초 Unit 추가 방식은 [ModelUI_051] 버튼을 클릭하여 추가가 가능하다.
+        - Unit 외 다른 Device의 추가는 생성된 Unit을 선택 후 Mouse 우측 버튼을 클릭하여 Device 추가가 가능하다. 생성된 Unit은 Unit1부터 순차적으로 생성된다.
+        
+        II. Unit 삭제 [ModelUI_052]
+        
+        - 삭제할 Unit을 선택 후 마우스 우측 버튼을 클릭하면 생성되는 메뉴에서 가장 아래의 Delete Unit을 클릭하면 Unit을 삭제할 수 있다.
+        
+        III. Unit 속성 설정
+        
+        - [ModelUI_053] : 생성된 Unit을 선택 후 좌측 상단의 [ModelUI_054] 버튼을 클릭하면 속성 변경을 설정할 수 있다.
+        - [ModelUI_055] : 항목은 크게 Base Info와 Cim, Scenario Items, 기타 항목으로 구분되어 있으며 하단에는 선택된 항목들의 설명이 출력된다.
+        - [ModelUI_056] : Unit을 설정에 기본이 되는 설정 항목들이 있다.
+            - i. [ModelUI_057] : Camera 촬상 시나리오 항목을 설정한다.
+            - ii. [ModelUI_058] : Camera 촬상 방식을 설정한다. (동기, 비동기)
+            - iii. [ModelUI_059] : Unit의 고유 Id로 설정 불가 항목
+            - iv. [ModelUI_060] : Unit이 생성된 Index로 설정을 변경하지 않는 항목
+            - v. [ModelUI_061] : Socket 통신 여부에 따른 설정을 한다. (Vision PC to Vision PC에 한하여 설정)
+            - vi. [ModelUI_062] : Model Device에 표현된 Unit의 이름을 변경하고자 할 경우 이름을 변경한다.
+            - vii. [ModelUI_063] : Camera에서 촬영하는 이미지의 개수가 특정 Step 별로 다를 경우 PLC에서 개별 신호를 받아 촬상하는 경우에만 설정을 한다.(tabber String만 true,나머지는 false)
+            - viii. [ModelUI_064] : Line Scan Camera의 사용 여부를 설정한다.(true이면,아래UserSequenceType은 Async로 설정할 것)
+            - ix. [ModelUI_065] : 선택된 Unit Sequence 구동 방식을 설정 한다. (동기, 비동기)
+        - [ModelUI_066] : 상위 보고에 사용되는 설정 항목들이 있다.
+            - i. [ModelUI_067] : Cim 보고용 공통 데이터 이름을 지정한다.
+        - [ModelUI_068] : Unit이 가지고 있는 각각의 Device 들의 설정된 Scenario 항목들이 있다.
+            - i. [ModelUI_069] : Calibration Data 항목들이 있다.
+            - ii. [ModelUI_070] : Camera 촬상 시나리오 항목들이 있다.
+            - iii. [ModelUI_071] : 사용자가 Camera 및 조명 동작에 대한 Scheduler를 설정할 수 있다.
+            - iv. [ModelUI_072] : 검사 공정 시나리오 항목들이 있다.
+            - v. [ModelUI_073] : 검사 결과 시나리오 항목들이 있다.
+            - vi. [ModelUI_074] : CIM에 결과 전송 시 그룹으로 Unit을 묶을 경우 설정한다.
+        - [ModelUI_075] : Tact time 항목들이 있다.
+            - i. [ModelUI_076] : Unit의 Process Tact Time을 출력한다.
+            - ii. [ModelUI_077] : Unit 내부 Thread 동작 주기를 설정한다.
+            - iii. [ModelUI_078] : 설정 불가능항 항목이다.
+            - iv. [ModelUI_079] : Unit의 전체 동작 시간을 출력한다. (다른 Device 간의 동작 포함 시간)
+            - v. [ModelUI_080] : Unit의 Sequence 동작 시간만을 출력한다.
+    
+    b. Camera
+    
+    IV. Camera 추가 [ModelUI_081]
+    
+    - Camera를 추가할 Unit을 선택 후 마우스 우측 버튼을 클릭하면 생성되는 메뉴에서 Add Camera를 클릭하면 Add Camera Device 창이 생성된다.
+    - [ModelUI_082] : Unit에 추가할 Camera를 등록하는 창이다. 여러 개의 Camera를 한 번에 등록할 수 있으며 조명을 추가할 수 있다. 또한 원본 영상의 가공이 필요할 경우 Detect의 추가를 할 수 있다.
+        - ⓐ [ModelUI_083] : Camera 생성 및 삭제, 생성된 Camera를 선택한다.
+            - i. [ModelUI_084] : 생성할 Camera의 개수를 입력한다.
+            - ii. [ModelUI_085] : Camera Count의 입력된 개수만큼 Camera를 생성한다.
+            - iii. [ModelUI_086] : 생성된 Camera를 삭제할 때 사용된다. 아래 Camera 생성 Tab의 마지막 Camera 항목부터 삭제를 한다.
+        - ⓑ [ModelUI_087] : Camera Tab에서 선택된 Camera에 조명 컨트롤러의 사용할 채널 개수를 설정한다. 조명 컨트롤러는 1개 채널의 조명컨트롤러와 8개 채널의 조명컨트롤러로 구성되어 있다.
+        - ⓒ [ModelUI_088] : Camera Tab에서 선택된 Camera의 기본 설정을 한다.
+            - i. [ModelUI_089] : Model Device에서 보여지는 Camera의 이름을 설정한다.
+            - ii. [ModelUI_090] : Vision S/W에 연결된 Camera 모델을 설정한다. Camera ID는 Camera의 종류에 따라 다르게 나타난다. GigE Camera의 경우 Ip로 표시된다.
+            - iii. [ModelUI_091] : Camera의 영상을 출력할 Display의 이름을 설정한다.
+            - iv. [ModelUI_092] : Camera의 영상을 전달할 Image Device를 설정한다. 특이 사항이 아닐 경우 Image Device는 Unit 당 한 개만 존재하며, Image Device가 생성되지 않은 상태에서는 Target ID에 항목이 표시되지 않는다. Camera를 추가 후 따로 Image Device 설정을 해주어야 한다.
+        - ⓓ [ModelUI_093] : Camera의 1Pixel 당 거리인 Resolution을 설정한다. 단위는 mm이다.
+        - ⓔ [ModelUI_094]
+        - ⓕ [ModelUI_095] : 원본 영상의 가공이 필요할 경우 사용된다. Detect를 추가하여 원본 영상에서 필요 부분만 잘라내어 사용할 수 있다.
+        - ⓖ [ModelUI_096] : 작업 완료 후 저장 시에는 [ModelUI_097] 버튼을 클릭하며 작업 취소를 원할 경우 [ModelUI_098] 버튼을 클릭한다.
+    - [ModelUI_099] : Camera가 생성되면 Unit 아래 Camera 항목이 생성된다. Camera를 선택 후 마우스 우측 버튼을 클릭하면 Camera에 추가할 수 있는 Indicator, Light, Detect, Processing 등을 추가할 수 있다.
+        - i. [ModelUI_100] : Camera에서 획득된 영상을 Display에 출력 시 사용자가 원하는 텍스트를 같이 출력할 경우 사용한다.
+        - ii. [ModelUI_101] : Camera에서 사용할 조명이 있을 경우 추가하여 사용한다.
+        - iii. [ModelUI_102] : Camera에서 원본 영상의 편집이 필요할 경우 Detect를 추가하여 사용한다.
+        - iv. [ModelUI_103]
+        - v. [ModelUI_104] : 추가한 Camera를 삭제할 때 사용한다.
+    
+    V. Camera 속성 설정 [ModelUI_105] : 생성된 Camera를 선택 후 좌측 상단의 [ModelUI_106] 버튼을 클릭하면 속성 변경을 설정할 수 있다.
+    
+    - [ModelUI_107] : 항목은 크게 Base Info, Camera Delay Time, Camera Info, Concat Info, Image Processing, Light Scenario, Merge Info, Ng Scenario, Simulation, Split Info, 기타 항목으로 구분되어 있으며 항목 선택 시 최하단에 설명이 나타난다.
+    - [ModelUI_108] : Camera 설정에 기본이 되는 설정 항목들이 있다.
+        - i. [ModelUI_109] : Camera의 고유 Id로 설정 불가 항목이다.
+        - ii. [ModelUI_110] : Camera가 생성된 Index로 설정을 변경하지 않는 항목이다.
+        - iii. [ModelUI_111] : Model Device에 표현된 Camera의 이름을 변경하고자 할 경우 사용된다.
+    - [ModelUI_112] : Camera 촬상 시 지연 시간을 설정할 수 있는 항목들이 있다.
+        - i. [ModelUI_113] : Camera 촬상 시 지연 시간 설정을 할 수 있다.
+    - [ModelUI_114] : Camera 사용 기능에 대한 항목들이 있다.
+        - i. [ModelUI_115] : 특정 조건에 맞추어 Camera의 Parameter 변경이 필요할 경우 Camera의 Parameter들을 구분하여 설정할 수 있다.
+        - ii. [ModelUI_116] : 선택된 Camera에 실제 Camera와 Matching을 시킨다.
+        - iii. [ModelUI_117] : Camera Parameter를 설정할 수 있다.
+        - iv. [ModelUI_118] : Camera 촬상 방법으로 Program Start, Auto Mode, ExternalSignal 중 Camera의 촬상 Scenario에 맞는 항목으로 설정을 한다.(기본은 ExternalSignal을사용)
+        - v. [ModelUI_119] : Camera가 촬상 할 Frame의 수를 설정한다.
+        - vi. [ModelUI_120] : Camera 촬상 후 동작에 대한 Option을 선택한다.
+        - vii. [ModelUI_121] : 촬상 후 영상 취득의 Time Out을 설정 한다. 설정 시간만큼 취득 영상을 기다리며 이후는 알람을 띄운다. -1일 경우 영상이 취득될때까지 무기한 대기한다.
+        - viii. [ModelUI_122] : Camera에 취득된 영상들을 연결하여 붙일 때 사용되는 기능으로 미 사용일 경우 None, 사용 할 경우 연결할 방향을 설정한다.
+        - ix. [ModelUI_123] : 취득된 이미지의 방향을 돌릴 때 사용된다. Scan Split에서만 사용된다.
+        - x. [ModelUI_124] : Camera의 이미지를 단순 디스플레이에만 사용할 때 설정하는 기능이다.
+        - xi. [ModelUI_125] : Camera에서 최대로 받을 Frame 수량을 Interlock 설정한다. 설정 값을 초과 시 수신된 이미지를 모두 삭제한다.
+        - xii. [ModelUI_126] : Camera X 축 방향의 Resolution을 설정한다. 초기값은 1이며 Calibration 완료 시 자동으로 값이 변경된다.
+        - xiii. [ModelUI_127] : Camera Y 축 방향의 Resolution을 설정한다. 초기값은 1이며 Calibration 완료 시 자동으로 값이 변경된다.
+        - xiv. [ModelUI_128] : Camera Z 축 방향의 Resolution을 설정한다. 초기값은 1이며 Calibration 완료 시 자동으로 값이 변경된다. 2D Camera에선 해당 값을 사용하지 않는다.
+        - xv. [ModelUI_129] : Camera에서 취득된 1개의 영상에서 Frame을 분할할 경우 사용된다. 설정된 값으로 Frame을 분할한다.
+    - [ModelUI_130] : Camera에서 취득된 영상들을 연결하여 붙일 때 설정되는 항목들이 있다.
+        - i. [ModelUI_131] : 영상들을 가로 방향으로 연결하여 붙일 때 좌에서 우 또는 우에서 좌로 붙일 방향을 설정한다.
+        - ii. [ModelUI_132] : 영상들을 세로 방향으로 연결하여 붙일 때 상에서 하 또는 하에서 상으로 붙일 방향을 설정한다.
+    - [ModelUI_133] : 취득된 영상을 Processing 할 경우 설정 항목들이 있다.
+        - i. [ModelUI_134] : 취득된 영상을 Processing 하는 시나리오가 있다.
+    - [ModelUI_135] : Camera에서 영상 취득 전 조명 동작에 대한 설정 항목들이 있다.
+        - i. [ModelUI_136] : Camera에서 영상 취득 전, 후의 조명 동작 시나리오가 있다.
+        - ii. [ModelUI_137] : 조명 동작 순서를 설정한다.
+    - [ModelUI_138] : Camera에서 취득된 영상을 합성할 경우 설정 항목들이 있다.
+        - i. [ModelUI_139] : 이미지 합성 모드일 경우 합성 옵션을 설정할 수 있다.
+        - ii. [ModelUI_140] : 합성 시 밝기 Offset을 설정으로 -100 ~ 100까지 설정할 수 있다.
+    - [ModelUI_141] : Camera에서 영상 취득 실패 시의 시나리오 항목들이 있다.
+        - i. [ModelUI_142] : 영상 취득을 실패할 경우 Camera의 동작 시나리오를 설정한다.
+    - [ModelUI_143] : Simulation 동작에 필요한 항목들이 있다.
+        - i. [ModelUI_144] : Simulation 시 한 장의 이미지로 동작할 경우 이미지의 경로를 설정한다.
+        - ii. [ModelUI_145] : Simulation 시 여러 장의 이미지로 동작할 경우 이미지 폴더 경로를 설정한다.
+    - [ModelUI_146] : Camera에서 취득된 영상을 분할할 경우 설정하는 항목들이 있다.
+        - i. [ModelUI_147] : AOI 원본 영상에서 Pixel Y가 0인 지점에서부터 제품 하단까지의 Pixel Y 값을 설정한다.
+        - ii. [ModelUI_148] : AOI Image 좌측 또는 우측의 여분 이미지 제거 시 남겨둘 여분의 Pixel X값을 설정한다.
+        - iii. [ModelUI_149] : 취득된 영상을 분할시키기 위한 Detect의 시나리오가 있다.
+        - iv. [ModelUI_150] : 분할 전 취득 영상을 저장할 지를 설정한다.
+        - v. [ModelUI_151] : XN Tabber에서 사용되며 ScanSplit 이미지가 제품 Size + 설정 값 이상으로 쌓이면 End 위치를 검사한다.
+        - vi. [ModelUI_152] : 영상 분할 모드를 설정한다. XN Tabber 또는 AOI 일 경우에만 설정을 한다.
+        - vii. [ModelUI_153] : 영상 분할 시 설정 값만큼 더하여 영상을 분할 한다.
+    - [ModelUI_154] : Camera 설정 기능 외 항목들이 있다.
+        - i. [ModelUI_155] : 취득된 영상을 출력할 디스플레이를 설정한다.
+        - ii. [ModelUI_156] : Camera의 촬영 모드가 Live인지를 출력하며 설정은 불가 하다.
+        - iii. [ModelUI_157] : Vision S/W 내에서 사용되는 Key 값으로 설정은 불가 하다.
+        - iv. [ModelUI_158] : Camera 동작 시간이 출력된다.
+        - v. [ModelUI_159] : Camera 내부 Thread 동작 주기를 설정한다.
+        - vi. [ModelUI_160] : 설정 불가능한 항목이다.
+        - vii. [ModelUI_161] : Camera에서 취득된 영상을 Image Device 로 보낼 때 보낼 Image Device를 설정한다.
+        - viii. [ModelUI_162] : Camera 전체 동작 시간을 출력한다.
+        - ix. [ModelUI_163] : Camera Sequence 동작 시간 만을 출력한다.
+    
+    VI. Image 추가 [ModelUI_164]
+    
+3. Image
+    - Image를 추가할 Unit을 선택 후 마우스 우측 버튼을 클릭하면 생성되는 메뉴에서 Add Image를 클릭하면 Add Image Device 창이 생성된다.
+    - [ModelUI_165] : 정보를 출력할 Display와 영상을 받을 Camera를 설정한다. 한 개의 Unit 내에 여러 개의 Image Device가 있을 때는 Display와 Camera를 맞게 설정해야하지만 Image Device가 한 개라면 최초 입력되어 있는 상태로 OK 버튼을 클릭하면 된다.
+        - ⓐ [ModelUI_166] : 정보를 출력할 Display를 설정한다. 보통은 필요 없으나 Concat기능을 사용할 경우 설정된 Display로 Concat된 이미지를 표시한다.
+        - ⓑ [ModelUI_167] : 영상을 받을 Camera를 설정한다.
+        - ⓒ [ModelUI_168] : 설정한 값을 저장할 시 [ModelUI_169] 버튼을 클릭하며, 취소를 할 경우 [ModelUI_170] 버튼을 클릭한다.
+        
+        VII. Image 속성 설정
+        
+        - [ModelUI_171] : 항목은 크게 Base Info, Detect Scenario, Image Concat, Parallel, Scenario, 기타 항목으로 구분되어 있으며 항목 선택 시 최 하단에 설명이 나타난다.
+        - [ModelUI_172] : Image 설정에 기본이 되는 설정 항목들이 있다.
+            - i. [ModelUI_173] : Image 고유 Id로 설정 불가 항목이다.
+            - ii. [ModelUI_174] : Image가 생성된 Index로 설정을 변경하지 않는 항목이다.
+            - iii. [ModelUI_175] : Model Device에 표현된 Image의 이름을 변경하고자 할 경우 이름을 변경한다.
+    - [ModelUI_176] : Detect의 동작 시나리오 모드를 설정하는 항목들이 있다.
+        - i. [ModelUI_177] : 설정된 Detect들을 독립 또는 종속 운영할 지에 대한 설정을 한다.
+    - [ModelUI_178] : Camera로부터 전달되는 Image 들을 이어 붙일 경우 설정하는 항목들이 있다.
+        - i. [ModelUI_179] : 지정된 Camera들로부터 전달되는 Image를 이어 붙이는 설정을 한다. 설정 버튼을 누르면 Cameras Image Concat 창이 생성된다.
+        - ii. [ModelUI_180] : 해당 창에서 Camera들로부터 전달된 이미지를 연결하는 방법을 설정한다.
+            - ⓐ [ModelUI_181] : Select Camera는 해당 Image를 Target ID로 한 Camera들의 항목이 나타나며 하나씩 선택 후 [ModelUI_182] 버튼을 누르면 항목이 추가되며 [ModelUI_183] 버튼을 누를 경우 초기화 한다.
+            - ⓑ [ModelUI_184] : Camera 3개를 추가하면 다음과 같이 3개의 버튼이 생성된다. Image를 이어 붙일 방향성을 선택 후 생성된 3개의 버튼을 우에서 좌로 순서대로 클릭하면 다음과 같이 설정이 되며 해당 순서로 Camera에서 전달된 이미지가 이어 붙어지게 된다. [ModelUI_185]
+            - ⓒ [ModelUI_186] : 설정 완료 후 Save 버튼을 누르면 저장, Cancel 버튼을 누르면 저장 없이 창이 종료된다.
+    - [ModelUI_187] : Detect의 시나리오 동작 모드를 설정하는 항목들이 있다.
+        - i. [ModelUI_188] : 1회 동작 시 동시에 처리할 Detect Tool의 수량을 설정한다. 0일 경우 한번에 전체 Detect Tool을 동작한다.
+        - ii. [ModelUI_189] : Detect Tool 동작 시 순차 또는 동시에 진행할 지를 설정한다.
+    - [ModelUI_190] : Image가 가지고 있는 각각의 Device 들의 설정된 Scenario 항목들이 있다
+        - i. [ModelUI_191] : Align 항목들이 있다.
+        - ii. [ModelUI_192] : Detect 항목들이 있다.
+        - iii. [ModelUI_193] : Inspection 항목들이 있다.
+        - iv. [ModelUI_194] : Image의 동작 순서를 설정한다.
+    - [ModelUI_195] : Image 설정 기능 외 항목들이 있다.
+        - i. [ModelUI_196] : 이미지의 그래픽을 출력할 디스플레이를 설정한다.
+        - ii. [ModelUI_197] : Vision S/W 내에서 사용되는 Key 값으로 설정은 불가 하다.
+        - iii. [ModelUI_198] : Image 동작 시간이 출력된다.
+        - iv. [ModelUI_199] : Image 내부 Thread 동작 주기를 설정한다.
+        - v. [ModelUI_200] : 설정 불가능한 항목이다.
+        - vi. [ModelUI_201] : Image에서 연결할 Camera를 설정하는 것으로 현재 자동으로 설정된다.
+        - vii. [ModelUI_202] : Image 전체 동작 시간을 출력한다.
+        - viii. [ModelUI_203] : Image Sequence 동작 시간만을 출력한다.
+    
+    VIII. Detect 추가 [ModelUI_204]
+    
+4. Detect
+    - Detect을 추가할 Image를 선택 후 마우스 우측 버튼을 클릭하면 생성되는 메뉴에서 Add Detect을 클릭하면 Add Detect Device 창이 생성된다.
+    - [ModelUI_205] : Detect을 등록 및 설정할 수 있는 창이다. 여러 개의 Detect을 한 번에 등록할 수 있으며 기본적인 설정을 진행할 수 있다.
+        - ⓐ [ModelUI_206] : Add 버튼은 Detect를 추가하며 Delete 버튼은 추가된 Detect 중 선택된 항목을 삭제할 때 사용된다.
+        - ⓑ [ModelUI_207] : Add 버튼을 눌러 Detect이 추가되면 기본값으로 생성되는 Detect 이다. Detect Type은 사용할 Detect Tool을 설정하며 Display ID는 출력될 Display를 설정한다. Target ID는 영상을 전달받을 Camera를 설정하며 Count는 생성할 Detect의 설정 값이 같을 때 Count 만큼 Detect을 자동 생성한다. Title은 Model Device에 출력될 Detect의 이름이며 Processing은 Detect Tool 사용 전 Image를 Processing할 경우 설정한다.
+        - ⓒ [ModelUI_208] : 설정한 값을 적용할 경우 OK 버튼을 누르며 설정하지 않을 경우 Cancel을 누르면 창이 종료 된다.
+    
+    IX. Detect 속성 설정
+    
+    - [ModelUI_209] : 항목은 크게 Align, Base Info, Classification, Crop Information, Detect Mode, for Master PC, for Slave PC, Graphics, Image Processing ROI, ImageProcessing Scenario, User Indicator, 기타 항목으로 구분되어 있으며 하단에는 선택된 항목들의 설명이 출력된다.
+    - [ModelUI_210] : Detect을 Align에 사용 시 설정 항목들이 있다.
+        - i. [ModelUI_211] : 사용 할 Fixture Align Id를 지정한다.
+        - ii. [ModelUI_212] : Align에서 사용하는 Detect일 경우 Target 또는 Object 인지의 Type을 설정한다.
+        - iii. [ModelUI_213] : Aligner의 Calibration Data 경로를 설정한 [unitid.cameraid.CalData.obj형식]
+        - iv. [ModelUI_214] : Aligner의 0~3까지의 Mark Index를 설정한다. 0은 좌 상단, 1은 우 상단, 2는 좌 하단, 3은 우 하단을 의미한다.
+        - v. [ModelUI_215] : 미사용
+        - vi. [ModelUI_216] : Detect가 Align에 사용될 경우 Mark NG 시 Manual 동작으로 Mark 위치를 지정할 수 있는 기능 사용 유무를 설정한다. Caliper, Blob, Pattern, Circle Tool에서만 사용 가능하다.
+    - [ModelUI_217] : Detect 설정에 기본이 되는 설정 항목들이 있다.
+        - i. [ModelUI_218] : Detect의 고유 Id로 설정 불가 항목이다.
+        - ii. [ModelUI_219] : Detect이 생성된 Index로 설정을 변경하지 않는 항목이다.
+        - iii. [ModelUI_220] : Detect의 수량이 적을 경우 속도 향상이 가능한 설정 항목이다.(변경하지 말 것)
+        - iv. [ModelUI_221] : Model Device에 표현된 Detect의 이름을 변경하고자 할 경우 이름을 변경한다.
+    - [ModelUI_222] : Detect Tool로 검출된 결함을 분류할 때 설정하는 항목들이 있다.
+        - i. [ModelUI_223] : Detect Tool로 검출된 결함을 분류할 때 사용한다.
+        - ii. [ModelUI_224] : 결함 종류 분류 기능을 사용할지에 대한 설정을 한다.
+    - [ModelUI_225] : 전달된 이미지에서 특정 부분을 추출하여 Detect Tool을 동작하도록 하는 항목들이 있다.
+        - i. [ModelUI_226] : 4점을 이용하여 Align하고 4점 기준 사각형모양으로 이미지를 추출한다. UseCrop이 True이면 활성화된다.
+        - ii. [ModelUI_227] : 특정 위치를 추출할 사각형의 중심 좌표 위치로 설정 불가 항목이다.
+        - iii. [ModelUI_228] : 특정 위치를 추출할 사각형의 높이를 설정한다.
+        - iv. [ModelUI_229] : 추출할 특정 위치의 사각형에서 하단 영역을 확장/축소하는 값을 설정한다.
+        - v. [ModelUI_230] : 추출할 특정 위치의 사각형에서 좌측 영역을 확장/축소하는 값을 설정한다.
+        - vi. [ModelUI_231] : 추출할 특정 위치의 사각형에서 우측 영역을 확장/축소하는 값을 설정한다.
+        - vii. [ModelUI_232] : 추출할 특정 위치의 사각형에서 상단 영역을 확장/축소하는 값을 설정한다.
+        - viii. [ModelUI_233] : 특정 위치를 추출할 사각형의 회전량을 설정한다.
+        - ix. [ModelUI_234] : 특정 위치를 추출할 사각형의 가로 길이를 설정한다.
+        - x. [ModelUI_235] : 특정 위치를 추출할 사각형의 좌측 상단 X 좌표를 설정한다.
+        - xi. [ModelUI_236] : 특정 위치를 추출할 사각형의 좌측 상단 Y 좌표를 설정한다.
+        - xii. [ModelUI_237]: 특정 위치 추출 기능의 사용 여부를 설정한다.
+        - xiii. [ModelUI_238] : 추출된 이미지를 검사에 사용할 경우 False, 단순 그래픽 용(AOI)로 사용할 경우 True로 설정을 한다.
+    - [ModelUI_239] : Detect Tool을 설정하는 항목들이 있다.
+        - i. [ModelUI_240] : Detect Tool의 검출 방법을 설정한다.
+        - ii. [ModelUI_241] : Align이나 Inspection과 Display가 다를 경우 True로 설정한다.
+        - iii. [ModelUI_242] : 다중 검출 수량을 설정한다. 검출 실패 시 수량만큼 검출을 시도하며 검출이 되면 동작을 중단한다. Device Tool에서 Detect 항목에서 설정을 할 수 있다.
+        - iv. [ModelUI_243] : Text Graphic을 표시할 X위치를 설정한다.
+        - v. [ModelUI_244] : Text Graphic을 표시할 Y위치를 설정한다.
+    - [ModelUI_245] : PC와 통신을 할 경우 Master PC에서만 설정을 하는 항목들이 있다.
+        - i. [ModelUI_246] : 수신된 Slave PC의 검사 정보를 자동 삭제할 경우 설정한다.
+        - ii. [ModelUI_247] : Slave PC의 데이터가 전송되는 마스터 PC 폴더의 경로를 설정한다.
+        - iii. [ModelUI_248] : 등록된 Result 경로를 매핑할 때 사용된다. (World 좌표계에서 사용될 인덱스)
+    - [ModelUI_249] : PC와 통신을 할 경우 Slave PC에서만 설정을 하는 항목들이 있다.
+        - i. [ModelUI_250] : Detect Tool의 결과를 Master PC로 전송할 경로를 설정한다.
+        - ii. [ModelUI_251] : Master PC로 전송할 때 파일의 이름으로 설정이 불가능 하다
+    - [ModelUI_252] : 디스플레이에 출력되는 그래픽을 설정하는 항목들이 있다.
+        - i. [ModelUI_253] : 결과가 NG일 경우 색상을 설정한다.
+        - ii. [ModelUI_254] : 결과가 OK일 경우 색상을 설정한다.
+        - iii. [ModelUI_255] : 디스플레이에 출력될 그래픽의 두께를 설정한다.
+    - [ModelUI_256] : Image Processing 영역 설정에 대한 항목들이 있다.
+        - i. [ModelUI_257] : Image Processing 사용 시 Processing 사각형 영역을 설정한다.
+        - ii. [ModelUI_258] : Image Processing 영역 사용 유무를 설정한다.
+    - [ModelUI_259] : Image Processing 시나리오 항목들이 있다.
+        - i. [ModelUI_260] : Image Processing 항목들이 있다.
+        - ii. [ModelUI_261] : Image Processing 동작 순서를 설정한다.
+    - [ModelUI_262] : Detect 설정 기능 외 항목들이 있다.
+        - i. [ModelUI_263] : Calibration Algorithm 선택으로 설정 불가 항목이다.
+        - ii. [ModelUI_264] : 그래픽을 출력할 디스플레이를 설정한다.
+        - iii. [ModelUI_265] : Vision S/W에서 사용되는 고유 Key 값으로 설정 불가능 하다.
+        - iv. [ModelUI_266] : 영상을 받을 Camera를 설정한다.
+        - v. [ModelUI_267] : 전달받을 이미지를 가져올 Camera Image Index를 선택한다. -1일 경우 Frame 검사를 하며, -1보다 큰 n에 대해서 Frame n만 검사를 한다.

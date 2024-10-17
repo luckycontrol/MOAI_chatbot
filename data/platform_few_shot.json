@@ -1,0 +1,218 @@
+[
+    {
+        "question": "조명 컨트롤러에는 어떤 항목이 있나요?",
+        "answer": "Light controller 버튼, Light Channel 버튼, 조명 값 슬라이더 바, 조명 값 숫자 입력기가 있습니다."
+    },
+    {
+        "question": "캘리브레이션의 주요 두 가지 항목은 무엇인가요?",
+        "answer": "캘리브레이션의 주요 두 가지 항목은 조명 컨트롤러와 수동 calibration입니다."
+    },
+    {
+        "question": "조명 컨트롤러를 사용하기 위해 먼저 해야 할 설정은 무엇인가요?",
+        "answer": "조명 컨트롤러를 사용하기 위해서는 먼저 SETUP UI에서 조명 컨트롤러의 사용을 설정해야 합니다."
+    },
+    {
+        "question": "조명 값의 범위는 어떻게 되나요?",
+        "answer": "조명 값의 범위는 최소 0에서 최대 255까지입니다."
+    },
+    {
+        "question": "수동 Calibration을 하기 위해 먼저 구해야 하는 데이터는 무엇인가요?",
+        "answer": "수동 Calibration을 하기 위해서는 먼저 Model 창에서 Camera의 Resolution Data를 구해야 하며, Detect의 Mark Index도 설정해야 합니다."
+    },
+    {
+        "question": "수동 Calibration에서 Offset X와 Offset Y는 어떤 역할을 하나요?",
+        "answer": "Offset X와 Offset Y는 각각 Align 보정을 하는 Robot의 회전 중심 좌표 중 X축과 Y축을 입력 값만큼 이동시키는 역할을 합니다. 단위는 mm입니다."
+    },
+    {
+        "question": "Manual cal에서 선택할 수 있는 두 가지 Calibration 유형은 무엇인가요?",
+        "answer": "Manual cal에서 선택할 수 있는 두 가지 Calibration 유형은 Create Coordinate(직교 좌표계)와 Theta Calibration(Robot의 회전 중심)입니다."
+    },
+    {
+        "question": "Use Graphic Point 체크박스의 기능은 무엇인가요?",
+        "answer": "Use Graphic Point 체크박스를 체크하면 Display에 포인트가 생기며, 마우스 클릭으로 포인트를 이동시킬 수 있습니다."
+    },
+    {
+        "question": "Theta calibration에서 생성되는 두 개의 포인트 색상은 무엇인가요?",
+        "answer": "Theta calibration에서 생성되는 두 개의 포인트 색상은 빨간색과 파란색입니다."
+    },
+    {
+        "question": "Display에 생성된 Point를 미세 조정하는 방법은 무엇인가요?",
+        "answer": "Move Point 항목 [C_img023]에서 Up, Down, Left, Right 버튼을 사용하여 Display에 생성된 Point를 현재 위치에서 미세하게 이동시킬 수 있습니다."
+    },
+    {
+        "question": "수동 calibration은 어떤 공정에서 주로 사용되나요?",
+        "answer": "수동 calibration은 Align을 하는 공정에서 보정을 하는 Robot의 회전 중심을 구할 때 사용됩니다."
+    },
+    {
+        "question": "Create Coordinate와 Theta Calibration의 차이점은 무엇인가요?",
+        "answer": "Create Coordinate는 직교 좌표계를 구하는 것이고, Theta Calibration은 Robot의 회전 중심을 구하는 것입니다."
+    },
+    {
+        "question": "Theta calibration에서 Point X1, Y1과 Point X2, Y2는 각각 어떤 포인트를 나타내나요?",
+        "answer": "Point X1, Y1은 빨간 포인트의 Pixel X, Y 값을 나타내고, Point X2, Y2는 파란 포인트의 Pixel X, Y 값을 나타냅니다."
+    },
+    {
+        "question": "수동 Calibration 시 카메라 해상도 데이터는 어디서 구해야 하나요?",
+        "answer": "수동 Calibration을 위한 카메라 해상도 데이터는 Model 창에서 구해야 합니다."
+    },
+    {
+        "question": "조명 컨트롤러의 채널 개수는 무엇에 따라 달라지나요?",
+        "answer": "조명 컨트롤러의 채널 개수는 조명 컨트롤러의 종류에 따라 달라집니다."
+    },
+    {
+        "question": "Use Graphic Point 체크 시 Point X와 Point Y 탭에는 어떤 정보가 표시되나요?",
+        "answer": "Use Graphic Point 체크 시 Point X와 Point Y 탭에는 생성된 포인트의 Pixel X값과 Y값이 각각 출력됩니다."
+    },
+    {
+        "question": "Vision system의 주요 특징 중 하나는 무엇인가요?",
+        "answer": "검사 관련 기능을 모듈화하여 사용자 개별 설정 및 변경 적용이 가능합니다."
+    },
+    {
+        "question": "시스템의 일반 명칭은 무엇인가요?",
+        "answer": "한화큐셀 통합 비전 검사 시스템입니다."
+    },
+    {
+        "question": "검사기는 어떤 구성요소로 이루어져 있나요?",
+        "answer": "Camera와 컨트롤러가 포함된 LED 조명으로 구성됩니다."
+    },
+    {
+        "question": "Vision S/W의 Main 화면에서 공통으로 사용되는 UI는 어디에 위치하나요?",
+        "answer": "①과 ②는 공통으로 사용되는 UI로 창 전환을 하여도 변화가 없습니다."
+    },
+    {
+        "question": "상단 공통 UI에서 PLC 연결 상태는 어떻게 표시되나요?",
+        "answer": "PLC 연결 상태는 세 가지로 표시됩니다: PLC와 연결된 상태, 가상의 PLC(Simulation)와 연결된 상태, PLC와 연결이 해제된 상태."
+    },
+    {
+        "question": "우측 공통 UI의 Navigation Bar에는 어떤 화면 전환 기능이 있나요?",
+        "answer": "Main, Calibration, Model, Monitor, Setup, Alarm, History 화면으로 전환할 수 있는 기능이 있습니다."
+    },
+    {
+        "question": "Vision S/W의 구동 상태를 어떻게 전환할 수 있나요?",
+        "answer": "우측 공통 UI에서 Manual과 Auto 상태를 마우스 클릭으로 전환할 수 있습니다."
+    },
+    {
+        "question": "Main UI의 Display page tab의 역할은 무엇인가요?",
+        "answer": "여러 개의 Display를 보여줄 때 가시성 문제를 해결하기 위해 여러 개의 Page를 만들고 해당 Page로 이동할 수 있게 합니다."
+    },
+    {
+        "question": "검사 데이터 출력 창에서 Insp result에는 어떤 정보가 표시되나요?",
+        "answer": "길이 및 외관 검사의 치수나 판정 데이터가 표시되며, Model, Start time, Module ID, Result 항목은 고정이고 이후 항목들은 Unit(공정) 별 검사 항목에 따라 검출된 데이터 값이 출력됩니다."
+    },
+    {
+        "question": "Calibration UI의 주요 기능은 무엇인가요?",
+        "answer": "영상의 1Pixel당 실제 거리를 계산하여 픽셀당 거리(mm)의 비율을 구하고, Align 보정값 계산 시 보정하는 로봇의 회전 중심을 구하는 데 사용됩니다."
+    },
+    {
+        "question": "Calibration UI에서 조명 컨트롤러의 조명 값 범위는 어떻게 되나요?",
+        "answer": "조명 값은 최소 0에서 최대 255까지의 단계로 이루어져 있습니다."
+    },
+    {
+        "question": "수동 Calibration을 하기 위해 필요한 사전 설정은 무엇인가요?",
+        "answer": "Model 창에서 Camera의 Resolution Data를 구해야 하며 Detect의 Mark Index도 설정해야 합니다."
+    },
+    {
+        "question": "Model recipe Insp에서 Inspection 설정값을 일괄 변경하는 방법은 무엇인가요?",
+        "answer": "일괄 변경을 원하는 열을 선택한 후 사용자가 값을 변경한 뒤 Batch Value를 클릭하면 해당 값으로 일괄 변경이 됩니다."
+    },
+    {
+        "question": "Camera 속성 설정에서 Camera Info의 'Acquire Mode'는 어떤 기능을 하나요?",
+        "answer": "Camera 촬상 방법으로 Program Start, Auto Mode, ExternalSignal 중 Camera의 촬상 Scenario에 맞는 항목으로 설정합니다. (기본은 ExternalSignal을 사용)"
+    },
+    {
+        "question": "Image 속성 설정에서 'Detect Scenario'의 'Detect Run Type'은 어떤 기능을 하나요?",
+        "answer": "설정된 Detect들을 독립 또는 종속 운영할지에 대한 설정을 합니다."
+    },
+    {
+        "question": "Detect 속성 설정에서 'Align'의 'Mark Index'는 어떤 의미를 가지나요?",
+        "answer": "Aligner의 0~3까지의 Mark Index를 설정합니다. 0은 좌 상단, 1은 우 상단, 2는 좌 하단, 3은 우 하단을 의미합니다."
+    },
+    {
+        "question": "Detect 속성 설정에서 'Crop Information'의 'UseCrop'은 어떤 기능을 하나요?",
+        "answer": "특정 위치 추출 기능의 사용 여부를 설정합니다. True로 설정하면 전달된 이미지에서 특정 부분을 추출하여 Detect Tool을 동작하도록 합니다."
+    },
+    {
+        "question": "Detect 속성 설정에서 'Graphics'의 'NGColor'와 'OKColor'는 어떤 역할을 하나요?",
+        "answer": "'NGColor'는 결과가 NG일 경우의 색상을, 'OKColor'는 결과가 OK일 경우의 색상을 설정합니다. 이는 디스플레이에 출력되는 그래픽의 색상을 결정합니다."
+    },
+    {
+        "question": "Vision S/W를 처음 실행했을 때 나타나는 화면은 무엇인가요?",
+        "answer": "Vision S/W를 실행하면 Main 화면이 나타납니다. 이 화면은 [MainUI_001]과 같이 보여집니다."
+    },
+    {
+        "question": "Main 화면에서 다른 화면으로 어떻게 전환할 수 있나요?",
+        "answer": "우측 공통 UI의 Navigation Bar [MainUI_016]를 사용하여 Main, Calibration, Model, Monitor, Setup, Alarm, History 화면으로 전환할 수 있습니다."
+    },
+    {
+        "question": "Vision S/W의 Auto 모드와 Manual 모드의 차이점은 무엇인가요?",
+        "answer": "Auto 모드에서는 설비 구동 시 Vision 검사를 진행하며 PLC로 결과 데이터를 전달합니다. Manual 모드에서는 모델, 설정에서 파라미터 변경과 Camera Live 영상 취득을 할 수 있지만 PLC 신호를 받지 않습니다."
+    },
+    {
+        "question": "검사 결과를 어떻게 확인할 수 있나요?",
+        "answer": "우측 공통 UI에서 [MainUI_026] 버튼을 클릭하여 Result 창을 생성하면 결과 데이터를 볼 수 있습니다."
+    },
+    {
+        "question": "Simulation 모드를 사용하려면 어떻게 해야 하나요?",
+        "answer": "우측 공통 UI에서 [MainUI_028] 버튼을 클릭하여 가상의 PLC 창을 생성하면 Simulation을 위한 기능을 사용할 수 있습니다."
+    },
+    {
+        "question": "Vision S/W를 종료하는 방법은 무엇인가요?",
+        "answer": "우측 공통 UI의 가장 아래에 있는 [MainUI_030] 버튼을 클릭하면 Vision S/W를 종료할 수 있습니다."
+    },
+    {
+        "question": "Calibration 화면에서 여러 카메라의 영상을 동시에 출력하려면 어떻게 해야 하나요?",
+        "answer": "Calibration 화면의 Display count [CalibrationUI_003] 섹션에서 Display 수량을 증가시키고, 각 Display에 대해 Camera를 선택하면 됩니다."
+    },
+    {
+        "question": "Calibration 화면에서 실시간 영상을 보려면 어떻게 해야 하나요?",
+        "answer": "Calibration 화면의 Display count 섹션에서 LiveUse [CalibrationUI_006]를 체크한 후 LIVE [CalibrationUI_008] 버튼을 클릭하면 실시간 영상을 볼 수 있습니다."
+    },
+    {
+        "question": "Calibration 화면에서 길이를 측정하는 방법은 무엇인가요?",
+        "answer": "MEASURE [CalibrationUI_009] 버튼을 활성화한 후, Display에서 측정하고자 하는 위치를 Mouse Click & Drag로 선택하면 길이를 측정할 수 있습니다."
+    },
+    {
+        "question": "Model 화면에서 새로운 모델을 생성하는 방법은 무엇인가요?",
+        "answer": "Model list 섹션에서 원하는 이름을 입력한 후, 모델 목록에서 빈 위치를 선택하고 Create 버튼 [ModelUI_022]을 클릭하면 현재 모델을 복사하여 새 모델을 생성할 수 있습니다."
+    },
+    {
+        "question": "Model 화면에서 모델의 이름을 변경하는 방법은 무엇인가요?",
+        "answer": "Model list 섹션에서 원하는 이름을 입력한 후, 변경하려는 모델을 선택하고 Rename 버튼 [ModelUI_022]을 클릭하면 모델의 이름을 변경할 수 있습니다. 단, Current Model은 이름 변경이 불가능합니다."
+    },
+    {
+        "question": "Model 화면에서 Unit을 추가하는 방법은 무엇인가요?",
+        "answer": "Model device 섹션에서 [ModelUI_003] 버튼을 클릭하면 Unit을 추가할 수 있습니다."
+    },
+    {
+        "question": "Model 화면에서 Camera를 추가하는 방법은 무엇인가요?",
+        "answer": "Unit을 선택한 후 마우스 우측 버튼을 클릭하여 나타나는 메뉴에서 Add Camera를 선택하면 Camera를 추가할 수 있습니다."
+    },
+    {
+        "question": "Model 화면에서 Detect를 추가하는 방법은 무엇인가요?",
+        "answer": "Image를 선택한 후 마우스 우측 버튼을 클릭하여 나타나는 메뉴에서 Add Detect을 선택하면 Detect를 추가할 수 있습니다."
+    },
+    {
+        "question": "Model 화면에서 Inspection 설정을 변경하는 방법은 무엇인가요?",
+        "answer": "Model recipe Insp 섹션에서 원하는 Inspection 항목을 선택한 후, Title, Cim Title, 상한/하한 Spec, Offset 값을 변경할 수 있습니다."
+    },
+    {
+        "question": "Model 화면에서 Align 설정을 변경하는 방법은 무엇인가요?",
+        "answer": "Recipe align 섹션에서 원하는 Aligner를 선택한 후, 보정값 X, Y, T의 상한/하한 Spec 및 Offset을 변경할 수 있습니다."
+    },
+    {
+        "question": "Camera 설정에서 Resolution을 변경하는 방법은 무엇인가요?",
+        "answer": "Camera 속성 설정의 Camera Info 섹션에서 Resolution X, Resolution Y, Resolution Z 값을 변경할 수 있습니다. 단, Calibration이 완료되면 이 값들은 자동으로 업데이트됩니다."
+    },
+    {
+        "question": "Detect 설정에서 검출 방법을 변경하는 방법은 무엇인가요?",
+        "answer": "Detect 속성 설정의 Detect Mode 섹션에서 DetectType을 변경하여 검출 방법을 설정할 수 있습니다."
+    },
+    {
+        "question": "Image Processing을 추가하는 방법은 무엇인가요?",
+        "answer": "Detect를 선택한 후 마우스 우측 버튼을 클릭하여 나타나는 메뉴에서 Add Processing을 선택하면 Image Processing을 추가할 수 있습니다."
+    },
+    {
+        "question": "Vision S/W에서 작업한 내용을 저장하는 방법은 무엇인가요?",
+        "answer": "각 화면의 하단에 있는 Save 버튼을 클릭하면 현재까지 작업한 내용을 저장할 수 있습니다. Model 화면에서는 [ModelUI_007] 버튼을 클릭하여 Model Device를 저장할 수 있습니다."
+    }
+]

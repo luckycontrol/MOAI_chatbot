@@ -1,5 +1,4 @@
 import chromadb
-from chromadb.config import Settings
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
@@ -27,4 +26,6 @@ docs = text_splitter.split_documents(pages)
 chroma_client = chromadb.PersistentClient(path="D:\projects\MOAI_chatbot\chroma_data")
 
 vectorstore = Chroma.from_documents(docs, embeddings, client=chroma_client)
-retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
+
+# print(retriever.invoke("Master 와 Slave 가 연결되었다면 어떻게 표시돼?"))

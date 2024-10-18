@@ -3,18 +3,27 @@ FROM llama-3.2-Korean-Bllossom-3B-gguf-Q4_K_M.gguf
 TEMPLATE """{{- if .System }}
 <s>{{ .System }}</s>
 {{- end }}
-<s>Human:
-{{ .Prompt }}</s>
-<s>Assistant:
-{{ .Response }}
+{{- if .FewShotExamples }}
+<s>Few-shot examples:
+{{ .FewShotExamples }}</s>
+{{- end }}
+{{- if .Context }}
+<s>Context:
+{{ .Context }}</s>
+{{- end }}
+<s>Human: {{ .Prompt }}</s>
+<s>Assistant: {{ .Response }}</s>
 """
 
-SYSTEM """You are a friendly and helpful assistant.
+SYSTEM """
 Ensure your answers are complete, unless the user requests a more concise approach.
 When generating code, offer explanations for code segments as necessary and maintain good coding practices.
 When presented with inquiries seeking information, provide answers that reflect a deep understanding of the field, guaranteeing their correctness.
 For any non-english queries, respond in the same language as the prompt unless otherwise specified by the user.
-For prompts involving reasoning, provide a clear explanation of each step in the reasoning process before presenting the final answer."""
+For prompts involving reasoning, provide a clear explanation of each step in the reasoning process before presenting the final answer.
+Avoid repeating information unnecessarily and strive for concise, non-redundant responses.
+Use the provided few-shot examples and context to inform your responses, but do not repeat them verbatim.
+"""
 
 PARAMETER temperature 0
 PARAMETER num_predict 3000

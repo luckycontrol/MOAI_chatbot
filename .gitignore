@@ -1,3 +1,5 @@
 model/llama*
+model/Llama*
+model/ggml*
 
 chroma.log

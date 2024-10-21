@@ -1,3 +1,7 @@
+## 1. 시스템 소개
+
+## 2. 소프트웨어 소개
+
 1. 공통 UI
     1. [공통UI_001] 은 Vision S/W 실행 시 생성되는 화면이다. Main 화면에 해당된다.
     2. [공통UI_001] 에서 **①**과 **②**는 공통으로 사용되는 UI 로, 창 전환을 하여도 변화가 없다. 
@@ -22,9 +26,87 @@
                     - [공통UI_010] : Vision S/W 가 가상의 PLC (Simulation) 과 연결된 상태. (해당 상태일 경우 PLC 와 통신은 되지 않는다.)
                     - [공통UI_011] : Vision S/W 가 PLC 와 연결되지 않은 상태.
         - [공통UI_012] : Vision PC 상태를 나타냄.
-            1. CPU : Vision PC 의 CPU 사용량 표시
-            2. RAM : Vision PC 의 RAM 사용량 표시
-            3. SSD : Vision PC 의 C 드라이브 사용량 표시
-            4. HDD : Vision PC 의 D 드라이브 사용량 표시
-        - [공통UI_013] : Vision S/W 의 현재 버전을 표시
-    -
+            1. CPU : Vision PC 의 CPU 사용량 표시.
+            2. RAM : Vision PC 의 RAM 사용량 표시.
+            3. SSD : Vision PC 의 C 드라이브 사용량 표시.
+            4. HDD : Vision PC 의 D 드라이브 사용량 표시.
+        - [공통UI_013] : Vision S/W 의 현재 버전을 표시.
+    - **②** 우측 공통 UI [공통UI_014] : Vision S/W의 기본적인 기능을 사용하기 위한 메뉴들.
+        - [공통UI_015] : 현재 모델과 공정 이름을 표시.
+        - [공통UI_016] : Vision S/W 화면 전환 기능
+            - [공통UI_017] : Main 화면으로 전환됨.
+            - [공통UI_018] : Calibration 화면으로 전환됨.
+            - [공통UI_019] : Model 화면으로 전환됨.
+            - [공통UI_020] : Monitor 화면으로 전환됨.
+            - [공통UI_021] : Setup 화면으로 전환됨.
+            - [공통UI_022] : Alarm 화면으로 전환됨.
+            - [공통UI_023] : History 화면으로 전환됨.
+        - [공통UI_024] : Vision S/W 구동 상태를 전환. 마우스 클릭으로 상태 변경 가능.
+            - Manual : 모델 설정에서 파라미터 변경과 Camera Live 영상을 취득할 수 있음. 설비 구동 중 Vision S/W 가 Manual 이라면, PLC 신호를 받지 않음.
+            - Auto : 설비 구동 시 Vision 검사를 진행하며 PLC 로 검사 결과 데이터를 전달함. 파라미터 변경 및 Camera Live 영상은 취득할 수 없음.
+        - [공통UI_025] : Vision S/W 의 부가 기능을 사용할 수 있음.
+            - [공통UI_026] : Batch 기능을 사용할 수 있는 창 생성.
+            - [공통UI_027] : 결과 데이터를 볼 수 있는 Result 창 생성.
+            - [공통UI_028] : Simulation 을 위한 가상의 PLC 창 생성.
+            - [공통UI_029] : Vision S/W 의 Data 및 Sequence 를 초기화.
+            - [공통UI_030] : Vision S/W 를 종료.
+2. Main UI
+    1. [메인UI_001] : 우측 공통 UI 에서 Main 버튼을 눌렀을 때 전환되는 화면. Vision S/W 에서 검사된 이미지 및 결과 데이터를 볼 수 있음.
+    - **①**  **Display Page Tab** [메인UI_002]
+        - Vision S/W 에서 촬영한 제품 영상이 출력 됨. 결함이 있을 경우 결함 위치를 표시.
+        - [메인UI_003] : 하나의 화면에 여러 개의 Display 를 보여 줄 경우 여러 개의 작은 Image 가 표시되기 때문에 가시성이 떨어짐. 이러한 문제를 보완하기 위하여 여러 개의 Page 를 만들고 각각의 Page 로 이동 할 수 있도록 하는 기능이 Display page tab.
+        - [메인UI_004] 이미지가 [메인UI_005], [메인UI_006], [메인UI_007] 로 분리될 수 있음.
+    - **②검사 데이터 출력 창** [메인UI_008]
+        - Vision S/W 에서 검사한 결과 데이터가 출력 됨.
+        - Unit (공정) 별로 Insp result 와 Align result 가 생성되며, 마지막 두 개의 tab 은 Inspection 과 Align 의 spec 정보가 출력 됨.
+        - Unit 이름은 Model UI 에서 Unit 의 title 이름으로 변경이 가능함.
+        - [메인UI_009] : Insp result 이미지.
+            - 길이 및 외관 검사의 치수나 판정 데이터를 표시함.
+            - Model, Start time (PLC start 데이터 받은 시간), Module ID, Result 항목은 고정. 이후 항목들은 Unit (공정) 별 검사 항목에 따라 검출된 데이터 값이 출력 됨.
+            - 검사 결과가 NG 일 경우, Result 와 NG data 는 붉은색으로 표시 됨.
+        - [메인UI_010] : Align result 이미지.
+            - 제품 Align 후 해당 Align 의 판정과 보정 값 표시. 판정은 Align spec 으로 결정되며, 판정이 NG 일 경우 빨간 글씨로 표기.
+            - Target X, Target Y, Target T : PLC 로 전달되는 Align 보정값 (Revision + Offset).
+            - Revision X, Revision Y, Revision T : Vision S/W Align Algorithm 으로 계산된 보정 값.
+            - Offset X, Offset Y, Offset T : Align 위치를 미세 조정하기 위한 기구적 위치.
+        - [메인UI_011] : Inspection spec 이미지.
+            - 현재 적용된 측정 또는 외관 검사 항목의 spec 을 표시.
+            - Model 창에서 설정한 spec 으로, 해당 spec 을 만족해야 OK 로 판정됨.
+            - Unit : 공정 항목 내에 측정 또는 외관 검사 tool 항목 표시.
+            - Insp name : 측정 또는 외관 검사 tool 의 검사 방법 표시.
+            - - Limit : standard 기준 하한 spec 표시. 해당 값 미만의 값은 NG 판정.
+            - standard : 기준 spec 표시.
+            - + Limit : standard 기준 상한 spec 표시. 해당 값 초과의 값은 NG 판정.
+        - [메인UI_012] : Align spec 이미지.
+            - 현재 적용된 Align 항목의 spec 을 표시.
+            - Model 창에서 설정한 spec 으로, 해당 spec 을 만족해야 OK 로 판정.
+            - Unit : 공정 항목 내에 Align tool 항목 표시.
+            - Align name : Aligner tool 의 title 표시.
+            - - Limit X, - Limit Y, - Limit T : PLC 로 전달되는 Align 보정 값 (Target X, Taget Y, Taget T) 의 하한 spec 표시. 해당 값 미만의 값은 NG 판정.
+            - + Limit X, + Limit Y, + Limit T : PLC 로 전달되는 Align 보정 값 (Taget X, Taget Y, Taget T) 의 상한 spec 표시. 해당 값 초과의 값은 NG 판정.
+3. Calibration UI
+    1. [캘리브레이션UI_001] : Calibration UI 이미지.
+    2. 영상 1 Pixel 당 실제 거리를 계산하여 픽셀 당 거리(mm) 의 비율을 구할 수 있음.
+    3. Align 보정 값 계산 시 보정하는 로봇의 회전 중심을 구할 때 사용되는 화면.
+    4. Calibration 화면에서는 영상을 출력하여 거리 측정 등의 작업을 할 수 있음.
+    5. 여러 개의 카메라에서 영상을 동시에 출력할 수 있음.
+    6. 필요에 따라 보조 선을 긋거나, 조명 밝기를 변경하는 작업 가능.
+- **①**  Display
+    - [캘리브레이션UI_001] 에서 a 에 해당.
+    - Camera grab 또는 Live 영상이 출력되는 display.
+- **②** Display Count
+    - [캘리브레이션UI_001] 에서 b에 해당.
+    - Display 수량을 증가 시키며, Camera 의 실시간 영상을 볼 수 있음.
+    - Display 별 영상에서 길이 측정을 진행 할 수 있음. (단, Resolution data 가 있어야 정확한 실측이 가능.)
+    - [캘리브레이션UI_002] : Display 수량을 변경할 수 있음. 최소 개수는 1.
+    - [캘리브레이션UI_003] : 생성한 Display 로 출력할 camera 선택. 실시간 영상을 보기 위해서는 LiveUse 가 체크되어 있어야 함.
+    - [캘리브레이션UI_004] : LiveUse 가 체크되어 있는 camera 들의 실시간 영상을 display 에 출력. Mouse click 으로 활성화 되며, [캘리브레이션UI_005] 그림과 같이 변경됨. 사용을 안 할 경우 다시 Mouse click 을 하면 원 상태로 돌아옴.
+    - [캘리브레이션UI_006] : Calibration data 가 있을 경우 사용 가능. Mouse click 으로 활성화 되며, [캘리브레이션UI_007] 과 같이 변경됨. 활성화 상태에서 Display 에서 측정 하고자 하는 위치를 Mouse click & drag 로 측정할 수 있음. Drag 시 display 엔 삼각형이 그려지며 삼각형의 세 개의 꼭지점으로 길이를 측정함.
+    - [캘리브레이션UI_008] : [캘리브레이션UI_007] 기능 사용 시 측정된 길이의 데이터가 출력됨.
+- **③** 조명 컨트롤러
+    - [캘리브레이션UI_001] 에서 c 에 해당.
+    - 조명 컨트롤러와 조명 컨트롤러의 채널을 선택 후 조명 값을 변경할 수 있음.
+    - [캘리브레이션UI_009] : 두 종류의 조명 컨트롤러가 있으며 사용하기 위해서는 Setup UI 에서 조명 컨트롤러의 사용을 먼저 설정해야 함.
+    - [캘리브레이션UI_010] : 조명 컨트롤러의 종류에 따라 채널의 개수가 다름. 변경하고자 하는 채널을 선택할 수 있음.
+    - [캘리브레이션UI_011] : 파란색 바를 Mouse click & drag 로 움직일 수 있으며 움직인 양 만큼 조명 값이 변경 됨.
+    - [캘리브레이션UI_012] : 값을 입력한 수치로 조명 값이 변경 됨. 위의 파란색 바를 움직여도 해당 값이 변경 됨. 최소 0 에서 최대 255 까지의 단계로 이루어져 있음.

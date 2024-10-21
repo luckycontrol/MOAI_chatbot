@@ -4,9 +4,10 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
-from langserver.prompt import rag_chain
+from langserver.prompt import rag_chain, split_output, split_brackets
 from langserver.utils import print_message, process_text
 from PIL import Image
+import shutil
 
 img_path = r"D:\projects\MOAI_chatbot\MOAI_chatbot_이미지"
 
@@ -17,23 +18,22 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
 # 이전 대화를 출력해주는 코드
-print_message()
+# print_message()
 
 if user_input := st.chat_input("메시지를 입력하세요"):
     st.chat_message("user").write(f"{user_input}")
     st.session_state["messages"].append(("user", user_input))
     with st.spinner("전송중..."):
         msg = rag_chain.invoke(user_input)
-        result = process_text(msg)
+        split_result = split_output(msg)
+        final_result = split_brackets(split_result)
+        print('*' * 60, '\n\n', msg, '\n\n', '*' * 60)
 
-        for item in result:
-            if item.startswith("이미지:"):
-                img_name = f'{item.split(":")[1].strip()}.png'
-                image_path = os.path.join(img_path, img_name)
-                image = Image.open(image_path)
-                st.image(image, caption=img_name)
-                st.session_state["messages"].append(("MOAI", image))
-            else:
-                text = item.split(":")[1].strip()
-                st.chat_message("MOAI").write(text)
-                st.session_state["messages"].append(("MOAI", text))
+        with st.chat_message("MOAI"):
+            for item in final_result:
+                if item.startswith("[") and item.endswith("]"):
+                    img_name = f'{os.path.join(img_path, item)}.png'
+                    image = Image.open(img_name)
+                    st.image(image)
+                else:
+                    st.write(item)

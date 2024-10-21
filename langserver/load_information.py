@@ -5,6 +5,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 import json
 import os
+# import shutil
 
 def format_docs(docs):
     formatted_docs = []
@@ -13,6 +14,8 @@ def format_docs(docs):
         metadata = doc.metadata
         formatted_doc = f"컨텐츠:\n{content}\n\n메타데이터:\n"
         for key, value in metadata.items():
+            if key == "seq_num" or key == "source":
+                continue
             formatted_doc += f"{key}: {value}\n"
         formatted_docs.append(formatted_doc)
     return '\n\n---\n\n'.join(formatted_docs)
@@ -30,12 +33,11 @@ examples = json.load(open(os.getcwd() + "/data/platform_few_shot.json", "r", enc
 # 임베딩 모델 로드
 embeddings = HuggingFaceEmbeddings(
     model_name="paraphrase-multilingual-mpnet-base-v2",
-    model_kwargs={"device": "mps"},
+    model_kwargs={"device": "cuda"},
     encode_kwargs={"normalize_embeddings": True}
 )
 
 # RAG 데이터 로드
-# loader = TextLoader(os.getcwd() + "/data/platform_information.txt")
 loader = JSONLoader(
     file_path=os.getcwd() + "/data/platform_information_rag.json",
     jq_schema='.[]',
@@ -49,13 +51,11 @@ text_splitter = RecursiveCharacterTextSplitter(
     chunk_overlap=150
 )
 
-# docs = text_splitter.split_documents(pages)
-
 chroma_client = chromadb.PersistentClient(path=os.getcwd() + "/chroma_data")
 
 vectorstore = Chroma.from_documents(pages, embeddings, client=chroma_client)
-retriever = vectorstore.as_retriever(search_kwargs={"k": 1})
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
-# result = retriever.invoke("PLC 와 연결된 상태를 확인하는 방법을 알려줘.")
-# formatted_result = format_docs(result)
-# print(formatted_result)
+result = retriever.invoke("조명 값을 바꿀려면 어떻게 해야하나요?")
+formatted_result = format_docs(result)
+print(formatted_result)

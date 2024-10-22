@@ -20,7 +20,7 @@ def format_docs(docs):
     return ('\n\n---\n\n'.join(formatted_docs), metadata.get("image_ref", None))
 
 def metadata_func(record: dict, metadata: dict) -> dict:
-    metadata.update(record.get("metadata", {}))
+    metadata.update(record.get("content", {}))
     for key, value in metadata.items():
         if isinstance(value, list):
             metadata[key] = ', '.join(map(str, value))
@@ -47,8 +47,7 @@ examples = json.load(open(os.getcwd() + "/data/platform_few_shot.json", "r", enc
 loader = JSONLoader(
     file_path=os.getcwd() + "/data/platform_information_rag.json",
     jq_schema='.[]',
-    content_key='content',
-    metadata_func=metadata_func
+    content_key='content'
 )
 pages = loader.load()
 

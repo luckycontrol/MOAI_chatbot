@@ -8,7 +8,7 @@ from langserver.prompt import rag_chain, split_output, split_brackets
 from langserver.utils import print_message, process_text
 from PIL import Image
 
-img_path = r"D:\projects\MOAI_chatbot\MOAI_chatbot_이미지"
+img_path = os.path.join(os.getcwd(), "MOAI_chatbot_이미지")
 
 st.set_page_config(page_title="MOAI chatbot", page_icon="🤖")
 st.title("MOAI 챗봇")

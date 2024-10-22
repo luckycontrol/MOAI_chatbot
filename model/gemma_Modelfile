@@ -1,18 +1,21 @@
-FROM llama-3.2-Korean-Bllossom-3B-gguf-Q4_K_M.gguf
+FROM gemma2.gguf
 
-TEMPLATE """{{ if .System }}
-<|start_header_id|>{{ .System }}<|end_header_id|>
+TEMPLATE """{{- range $i, $_ := .Messages }}
+{{- $last := eq (len (slice $.Messages $i)) 1 }}
+{{- if or (eq .Role "user") (eq .Role "system") }}<start_of_turn>user
+{{ .Content }}<end_of_turn>
+{{ if $last }}<start_of_turn>model
 {{ end }}
-<|start_header_id|>Human:
-{{ .Prompt }}<|end_header_id|>
-<s>Assistant:
+{{- else if eq .Role "assistant" }}<start_of_turn>model
+{{ .Content }}{{ if not $last }}<end_of_turn>
+{{ end }}
+{{- end }}
+{{- end }}
 """
 
 SYSTEM """
 당신의 이름은 MOAI 챗봇 입니다. 당신에게 말을 걸거나 질문을 하는 대상은 사용자입니다. 당신은 MOAI 프로그램 또는 플랫폼에 관한 지식을 가지고 있습니다. 당신은 항상 한국어를 사용하여 사용자의 질문에 답변해야합니다. 당신의 업무 또는 일은 사용자의 MOAI 프로그램 또는 플랫폼에 대한 질문에 답변하는 것입니다.
 """
 
-PARAMETER stop "<|start_header_id|>"
-PARAMETER stop "<|end_header_id|>"
-PARAMETER stop "<|eot_id|>"
-PARAMETER stop "<|reserved_special_token"
+PARAMETER stop "<start_of_turn>"
+PARAMETER stop "<end_of_turn>"

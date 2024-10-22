@@ -1,38 +1,154 @@
 [
 	{
 		"question": "Vision S/W 와 통신하는 PC 연결상태는 무엇을 보고 알 수 있나요?",
-		"answer": "[공통UI_003] 위 이미지에서 PC 로고를 통해서 PC 연결 상태를 알 수 있습니다. [공통UI_004] 위 이미지는 Master 와 Slave PC 가 연결된 상태를 의미하며, [공통UI_005] 위 이미지는 연결되지 않은 상태를 의미합니다."
+		"answer": "[공통 UI-003] \n 위 이미지에서 PC 로고를 통해서 PC 연결 상태를 알 수 있습니다. [공통 UI-004] 위 이미지는 Master 와 Slave PC 가 연결된 상태를 의미하며, [공통 UI-005] 위 이미지는 연결되지 않은 상태를 의미합니다."
 	},
 	{
 		"question": "Master 와 Slave 의 연결 유무를 어떻게 알 수 있나요?",
-		"answer": "[공통UI_003] 위 이미지의 PC 로고를 통해서 알 수 있습니다. [공통UI_004] 위 이미지는 Master 와 Slave 가 연결되었음을 의미하고, [공통UI_005] 위 이미지는 Master 와 Slave 가 연결되지 않았음을 의미합니다."
+		"answer": "[공통 UI-003] 위 이미지의 PC 로고를 통해서 알 수 있습니다. [공통 UI-004] 위 이미지는 Master 와 Slave 가 연결되었음을 의미하고, [공통 UI-005] 위 이미지는 Master 와 Slave 가 연결되지 않았음을 의미합니다."
 	},
 	{
 		"question": "Master 와 Slave 가 연결되었다면 어떻게 표시되나요?",
-		"answer": "상단 공통 UI에서 [공통UI_004] 위 이미지와 같이 나타납니다."
+		"answer": "상단 공통 UI에서 [공통 UI-004] 위 이미지와 같이 나타납니다."
 	},
 	{
 		"question": "Master 와 Slave 가 연결되지 않았다면 어떻게 표시되나요?",
-		"answer": "상단 공통 UI에서 [공통UI_005] 위 이미지와 같이 나타납니다."
+		"answer": "상단 공통 UI에서 [공통 UI-005] 위 이미지와 같이 나타납니다."
 	},
 	{
 		"question": "현재 프로그램이 카메라와 연결되었는지 유무는 어떻게 알 수 있나요?",
-		"answer": "상단 공통 UI 에서 카메라 로고를 통해 알 수 있습니다. [공통UI_006] 위 이미지는 프로그램이 카메라와 연결되었음을 의미합니다. [공통UI_007] 위 이미지는 카메라가 가상의 PLC 와 연결되었음을 의미합니다. [공통UI_008] 위 이미지는 카메라가 프로그램과 연결되지 않았음을 의미합니다."
+		"answer": "상단 공통 UI 에서 카메라 로고를 통해 알 수 있습니다. [공통 UI-006] 위 이미지는 프로그램이 카메라와 연결되었음을 의미합니다. [공통 UI-007] 위 이미지는 카메라가 가상의 PLC 와 연결되었음을 의미합니다. [공통 UI-008] 위 이미지는 카메라가 프로그램과 연결되지 않았음을 의미합니다."
 	},
 	{
 		"question": "현재 프로그램과 PLC 의 연결 상태는 어떻게 알 수 있나요?",
-		"answer": "상단 공통 UI 에서 PLC 로고를 통해 알 수 있습니다. [공통UI_009] 위 이미지는 프로그램이 PLC 와 연결된 상태입니다. [공통UI_010] 위 이미지는 프로그램이 가상의 PLC 와 연결된 상태입니다. [공통UI_011] 위 이미지는 프로그램이 PLC 와 연결되지 않은 상태입니다."
+		"answer": "상단 공통 UI 에서 PLC 로고를 통해 알 수 있습니다. [공통 UI-009] 위 이미지는 프로그램이 PLC 와 연결된 상태입니다. [공통 UI-010] 위 이미지는 프로그램이 가상의 PLC 와 연결된 상태입니다. [공통 UI-011] 위 이미지는 프로그램이 PLC 와 연결되지 않은 상태입니다."
 	},
 	{
 		"question": "Vision PC 의 상태는 어디서 볼 수 있나요?",
-		"answer": "상단 공통 UI 에서 볼 수 있으며, [공통UI_012] 위 이미지와 같이 확인할 수 있습니다. CPU 사용량, RAM 사용량, C 드라이브, D 드라이브 사용량을 볼 수 있습니다."
+		"answer": "상단 공통 UI 에서 볼 수 있으며, [공통 UI-012] 위 이미지와 같이 확인할 수 있습니다. CPU 사용량, RAM 사용량, C 드라이브, D 드라이브 사용량을 볼 수 있습니다."
 	},
 	{
 		"question": "PLC 연결 상태는 어디서 볼 수 있나요?",
-		"answer": "상단 공통 UI 에서 볼 수 있으며, [공통UI_003] 위 이미지 중 PLC 로고를 통해 확인할 수 있습니다."
+		"answer": "상단 공통 UI 에서 볼 수 있으며, [공통 UI-003] 위 이미지 중 PLC 로고를 통해 확인할 수 있습니다."
 	},
 	{
 		"question": "PLC 연결 상태의 종류가 어떻게 되나요?",
-		"answer": "PLC 의 연결 상태는 세 가지 입니다. [공통UI_009] 위 이미지는 프로그램이 PLC 와 연결되었음을 의미합니다. [공통UI_010] 위 이미지는 프로그램이 가상의 PLC 와 연결되었음을 의미합니다. [공통UI_011] 위 이미지는 프로그램이 PLC 와 연결되지 않음을 의미합니다."
+		"answer": "PLC 의 연결 상태는 세 가지 입니다. [공통 UI-009] 위 이미지는 프로그램이 PLC 와 연결되었음을 의미합니다. [공통 UI-010] 위 이미지는 프로그램이 가상의 PLC 와 연결되었음을 의미합니다. [공통 UI-011] 위 이미지는 프로그램이 PLC 와 연결되지 않음을 의미합니다."
+	},
+	{
+		"question": "Vision S/W 와 통신하는 PC 연결상태는 무엇을 보고 알 수 있나요?",
+		"answer": "[공통UI_003] 위 이미지에서 PC 로고를 통해서 PC 연결 상태를 알 수 있습니다. [공통UI_004] 위 이미지는 Master 와 Slave PC 가 연결된 상태를 의미하며, [공통UI_005] 위 이미지는 연결되지 않은 상태를 의미합니다."
+	},
+	{
+		"question": "Vision S/W의 카메라 연결 상태는 어떻게 확인할 수 있나요?",
+		"answer": "[공통UI_003]의 카메라 로고를 통해 확인할 수 있습니다. [공통UI_006]은 카메라 연결 상태, [공통UI_007]은 가상 카메라(Simulation) 연결 상태, [공통UI_008]은 카메라 연결 해제 상태를 나타냅니다."
+	},
+	{
+		"question": "PLC 연결 상태는 어떻게 확인하며, 어떤 상태들이 있나요?",
+		"answer": "[공통UI_003]의 PLC 로고를 통해 확인할 수 있습니다. [공통UI_009]는 PLC 연결 상태, [공통UI_010]은 가상 PLC(Simulation) 연결 상태, [공통UI_011]은 PLC 연결 해제 상태를 나타냅니다."
+	},
+	{
+		"question": "Vision PC의 상태 표시에는 어떤 항목들이 있나요?",
+		"answer": "[공통UI_012]에서 CPU 사용량, RAM 사용량, SSD(C드라이브) 사용량, HDD(D드라이브) 사용량을 확인할 수 있습니다."
+	},
+	{
+		"question": "Vision S/W의 화면 전환 기능에는 어떤 것들이 있나요?",
+		"answer": "[공통UI_016]에서 Main, Calibration, Model, Monitor, Setup, Alarm, History 화면으로 전환할 수 있습니다."
+	},
+	{
+		"question": "Vision S/W의 구동 상태(Manual/Auto)는 어떤 차이가 있나요?",
+		"answer": "Manual 모드에서는 모델 설정에서 파라미터 변경과 Camera Live 영상 취득이 가능하지만 PLC 신호를 받지 않습니다. Auto 모드에서는 설비 구동 시 Vision 검사를 진행하고 PLC로 검사 결과 데이터를 전달하지만, 파라미터 변경과 Camera Live 영상 취득은 불가능합니다."
+	},
+	{
+		"question": "Vision S/W의 부가 기능에는 어떤 것들이 있나요?",
+		"answer": "[공통UI_025]에서 Batch 기능, Result 창 생성, Simulation용 가상 PLC 창 생성, Data 및 Sequence 초기화, Vision S/W 종료 기능을 사용할 수 있습니다."
+	},
+	{
+		"question": "Main UI의 Display Page Tab은 어떤 기능인가요?",
+		"answer": "[메인UI_003]에서 여러 개의 Display를 보여줄 때 가시성 향상을 위해 여러 개의 Page로 나누어 볼 수 있는 기능입니다. [메인UI_004] 이미지는 [메인UI_005], [메인UI_006], [메인UI_007]로 분리될 수 있습니다."
+	},
+	{
+		"question": "검사 데이터 출력 창의 Insp result와 Align result는 각각 어떤 정보를 보여주나요?",
+		"answer": "Insp result는 길이 및 외관 검사의 치수나 판정 데이터를 표시하며, Align result는 제품 Align 후 해당 Align의 판정과 보정 값을 표시합니다. NG 판정 시 붉은색으로 표시됩니다."
+	},
+	{
+		"question": "Calibration UI의 주요 기능은 무엇인가요?",
+		"answer": "Calibration UI는 영상 1 Pixel당 실제 거리를 계산하여 픽셀 당 거리(mm)의 비율을 구하고, Align 보정 값 계산 시 로봇의 회전 중심을 구하는 데 사용됩니다."
+	},
+	{
+		"question": "조명 컨트롤러의 사용 방법은 어떻게 되나요?",
+		"answer": "[캘리브레이션UI_009]에서 조명 컨트롤러 종류를 선택하고, [캘리브레이션UI_010]에서 채널을 선택한 후, [캘리브레이션UI_011]의 파란색 바를 조절하거나 [캘리브레이션UI_012]에서 직접 값(0~255)을 입력하여 조명 값을 변경할 수 있습니다."
+	},
+	{
+		"question": "Vision S/W의 메인 화면은 어떻게 구성되어 있나요?",
+		"answer": "Vision S/W의 메인 화면은 [공통UI_001]로, Main 화면에 해당되며 상단 공통 UI(①)와 우측 공통 UI(②)로 구성되어 있습니다."
+	},
+	{
+		"question": "공통 UI의 상단부에는 어떤 정보들이 표시되나요?",
+		"answer": "상단 공통 UI에는 회사 로고 이미지[공통UI_002], 통신 연결 상태[공통UI_003], Vision PC 상태[공통UI_012], Vision S/W 버전[공통UI_013]이 표시됩니다."
+	},
+	{
+		"question": "Vision S/W의 현재 버전은 어디서 확인할 수 있나요?",
+		"answer": "Vision S/W의 현재 버전은 [공통UI_013]에서 확인할 수 있습니다."
+	},
+	{
+		"question": "우측 공통 UI에서 현재 모델과 공정 이름은 어디서 확인할 수 있나요?",
+		"answer": "[공통UI_015]에서 현재 모델과 공정 이름을 확인할 수 있습니다."
+	},
+	{
+		"question": "Insp result의 고정 항목들은 무엇인가요?",
+		"answer": "Insp result의 고정 항목은 Model, Start time(PLC start 데이터 받은 시간), Module ID, Result입니다."
+	},
+	{
+		"question": "Align result의 Target 값은 무엇을 의미하나요?",
+		"answer": "Target X, Y, T는 PLC로 전달되는 Align 보정값으로, Revision과 Offset을 합한 값입니다."
+	},
+	{
+		"question": "Align result의 Revision 값은 무엇을 의미하나요?",
+		"answer": "Revision X, Y, T는 Vision S/W Align Algorithm으로 계산된 보정 값입니다."
+	},
+	{
+		"question": "Align result의 Offset 값은 무엇을 의미하나요?",
+		"answer": "Offset X, Y, T는 Align 위치를 미세 조정하기 위한 기구적 위치입니다."
+	},
+	{
+		"question": "Inspection spec에는 어떤 정보들이 표시되나요?",
+		"answer": "Inspection spec에는 Unit(공정 항목), Insp name(검사 방법), Limit(하한/상한), standard(기준 spec) 정보가 표시됩니다."
+	},
+	{
+		"question": "Inspection spec의 Limit 값들은 무엇을 의미하나요?",
+		"answer": "-Limit는 standard 기준 하한 spec으로 미만 값은 NG, +Limit는 상한 spec으로 초과 값은 NG 판정됩니다."
+	},
+	{
+		"question": "Align spec에는 어떤 정보들이 표시되나요?",
+		"answer": "Align spec에는 Unit(공정 항목), Align name(Aligner tool의 title), Limit X/Y/T 정보가 표시됩니다."
+	},
+	{
+		"question": "Align spec의 Limit 값들은 무엇을 의미하나요?",
+		"answer": "-Limit X/Y/T는 하한 spec으로 미만 값은 NG, +Limit X/Y/T는 상한 spec으로 초과 값은 NG 판정됩니다."
+	},
+	{
+		"question": "Calibration UI에서 Display Count는 어떤 기능을 하나요?",
+		"answer": "[캘리브레이션UI_002]에서 Display 수량을 변경할 수 있으며, 카메라의 실시간 영상을 볼 수 있습니다."
+	},
+	{
+		"question": "Calibration UI에서 길이 측정은 어떻게 할 수 있나요?",
+		"answer": "Resolution data가 있을 경우 Display 별 영상에서 길이 측정이 가능합니다."
+	},
+	{
+		"question": "Display에서 카메라 선택은 어떻게 하나요?",
+		"answer": "[캘리브레이션UI_003]에서 생성한 Display로 출력할 카메라를 선택할 수 있습니다."
+	},
+	{
+		"question": "Live 영상을 보기 위한 조건은 무엇인가요?",
+		"answer": "Live 영상을 보기 위해서는 LiveUse가 체크되어 있어야 합니다."
+	},
+	{
+		"question": "Calibration data가 있을 때 길이 측정은 어떻게 하나요?",
+		"answer": "Calibration data가 있을 경우 [캘리브레이션UI_006]을 활성화하고 Mouse click & drag로 삼각형을 그려 길이를 측정할 수 있습니다."
+	},
+	{
+		"question": "조명 컨트롤러를 사용하기 위한 선제 조건은 무엇인가요?",
+		"answer": "조명 컨트롤러를 사용하기 위해서는 Setup UI에서 조명 컨트롤러의 사용을 먼저 설정해야 합니다."
 	}
 ]

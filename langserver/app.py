@@ -7,7 +7,6 @@ import streamlit as st
 from langserver.prompt import rag_chain, split_output, split_brackets
 from langserver.utils import print_message, process_text
 from PIL import Image
-import shutil
 
 img_path = r"D:\projects\MOAI_chatbot\MOAI_chatbot_이미지"
 

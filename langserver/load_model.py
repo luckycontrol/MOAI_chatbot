@@ -2,8 +2,8 @@ from langchain_community.llms import Ollama
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 model = Ollama(
-    model="gemma2b",
-    temperature=0
+    model="gemma2",
+    temperature=0.5
 )
 
 # model = ChatGoogleGenerativeAI(

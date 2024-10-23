@@ -20,13 +20,15 @@ if "messages" not in st.session_state:
 # print_message()
 
 if user_input := st.chat_input("메시지를 입력하세요"):
+    print(f'\n질문: {user_input}', '\n')
     st.chat_message("user").write(f"{user_input}")
     st.session_state["messages"].append(("user", user_input))
     with st.spinner("전송중..."):
         msg = rag_chain.invoke(user_input)
         split_result = split_output(msg)
         final_result = split_brackets(split_result)
-        print('*' * 60, '\n\n', msg, '\n\n', '*' * 60)
+
+        print(msg, '\n', '*' * 60)
 
         with st.chat_message("MOAI"):
             for item in final_result:

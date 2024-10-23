@@ -7,7 +7,7 @@ from langchain_core.prompts import ChatPromptTemplate, FewShotPromptTemplate, Pr
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langserver.load_model import model
-from langserver.load_information import retriever, format_docs
+from langserver.load_information import retriever
 import re
 
 import re
@@ -85,17 +85,17 @@ final_prompt = '''<start_of_turn>user
 다음은 RAG 결과입니다:
 {context}
 
-위의 RAG 결과를 사용하여 다음 지침에 따라 답변하세요:
-1. 반드시 질문과 관련된 내용만 답변하세요.
+위의 RAG 결과를 사용하여 다음 지침에 따라 질문에 대한 답변을 작성하세요:
+1. RAG 결과 중 질문과 관련있는 문서를 선택해서 답변하세요.
 2. 질문 내용이 RAG 결과와 관련 없을 경우, RAG 데이터를 참조하지 말고 질문에 대한 일반적인 답변을 하세요.
-2. 질문 내용이 RAG 결과와 관련 있을 경우,
-  - RAG 결과에서 metadata 의 image_ref 와 page_content 를 참조하여 답변하세요.
-  - mage_ref 는 이미지 참조입니다. 반드시 이미지 참조를 포함하여 답변하세요. 단, 이미지 참조: [메인UI_003] 과 같이 작성하지 마세요. 대신, 이미지를 확인하세요 또는 이미지에서 확인 가능합니다 와 같이 작성하세요.
-3. 문장이 어색하지 않도록 정리하여 답변하세요.
-4. 답변 내용이 중복되지 않도록 하세요.
-5. ** ** 와 같은 강조 표현은 사용하지 마세요.
+3. 질문 내용이 RAG 결과와 관련 있을 경우, 
+   - RAG 결과에서 metadata 의 page_content 를 이용해서 답변하세요.
+   - ** ** 로 표시된 텍스트는 사용하지 마세요.
+   - UI 요소 또는 [ ] 로 둘러싸인 부분을 반드시 포함하여 답변하세요. 이때 형식은 [메인UI_003] 이미지를 확인하세요 또는 [메인UI_003] 이미지에서 확인 가능합니다 와 같이 작성하면 됩니다.
+   - 문장이 어색하지 않도록 정리하여 답변하세요.
+   - 답변 내용이 중복되지 않도록 하세요.
 
-"question": {question}
+질문: {question}
 
 <end_of_turn>
 
@@ -105,7 +105,7 @@ final_prompt = '''<start_of_turn>user
 
 prompt = ChatPromptTemplate.from_template(final_prompt)
 
-# question = "Vision S/W 의 상태 보는 방법"
+question = "카메라 연결 상태 확인하는 방법"
 
 # rag 결과 확인
 # rag_result = retriever.invoke(question)
@@ -121,8 +121,18 @@ rag_chain = (
 )
 
 # rag 결과를 통한 답변 생성 확인
-# result = rag_chain.invoke(question)
-# print()
+result = rag_chain.invoke(question)
+print(result)
 # split_result = split_output(result)
 # print(split_result)
 # print(split_brackets(split_result))
+
+# 위의 RAG 결과를 사용하여 다음 지침에 따라 답변하세요:
+# 1. 반드시 질문과 관련된 내용만 답변하세요.
+# 2. 질문 내용이 RAG 결과와 관련 없을 경우, RAG 데이터를 참조하지 말고 질문에 대한 일반적인 답변을 하세요.
+# 2. 질문 내용이 RAG 결과와 관련 있을 경우,
+#   - RAG 결과에서 metadata 의 image_ref 와 page_content 를 참조하여 답변하세요.
+#   - mage_ref 는 이미지 참조입니다. 반드시 이미지 참조를 포함하여 답변하세요. 단, 이미지 참조: [메인UI_003] 과 같이 작성하지 마세요. 대신, 이미지를 확인하세요 또는 이미지에서 확인 가능합니다 와 같이 작성하세요.
+# 3. 문장이 어색하지 않도록 정리하여 답변하세요.
+# 4. 답변 내용이 중복되지 않도록 하세요.
+# 5. ** ** 와 같은 강조 표현은 사용하지 마세요.

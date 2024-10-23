@@ -3,38 +3,24 @@ from langchain_community.document_loaders import TextLoader, JSONLoader, Unstruc
 from langchain_text_splitters import RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_core.documents import Document
 from langchain_core.example_selectors import SemanticSimilarityExampleSelector
 from sentence_transformers import SentenceTransformer
 import json
 import os
-# import shutil
+from langchain_community.embeddings import OpenAIEmbeddings
+import shutil
 
-def format_docs(docs):
-    formatted_docs = []
-    for doc in docs:
-        content = doc.page_content
-        metadata = doc.metadata
-        formatted_doc = f"컨텍스트: {content}"
-        
-        formatted_docs.append(formatted_doc)
-        
-    return ('\n\n---\n\n'.join(formatted_docs), metadata.get("image_ref", None))
-
-def metadata_func(record: dict, metadata: dict) -> dict:
-    metadata.update(record.get("metadata", {}))
-    for key, value in metadata.items():
-        if isinstance(value, list):
-            metadata[key] = ', '.join(map(str, value))
-    return metadata
+# shutil.rmtree(f"{os.getcwd()}/chroma_data")
 
 def load_and_split_md(file_path):
 
     headers_to_split_on = [
-        ("#", "Header 1"),
-        ("##", "Header 2"),
-        ("###", "Header 3"),
-        ("####", "Header 4"),
-        ("#####", "Header 5"),
+        ("#", "header1"),
+        ("##", "header2"),
+        ("###", "header3"),
+        ("####", "header4"),
+        ("#####", "header5"),
     ]
 
     header_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
@@ -44,40 +30,76 @@ def load_and_split_md(file_path):
 
     header_splits = header_splitter.split_text(markdown_text)
 
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=100,
+    processed_splits = []
+    for doc in header_splits:
+        header = None
+        for level in ['header5', 'header4', 'header3', 'header2', 'header1']:
+            if level in doc.metadata and doc.metadata[level]:
+                header = doc.metadata[level]
+                break
+        
+        new_content = f"{header}\n{doc.page_content}"
+
+        processed_splits.append({
+            "content": new_content,
+            "metadata": doc.metadata
+        })
+
+    return processed_splits
+
+def search_documents(vectordb, query, k=3):
+    results = vectordb.similarity_search_with_score(query, k=k)
+
+    for doc, score in results:
+        print(f"\nScore: {score}")
+        print(f"Metadata: {doc.metadata}")
+        print(f"Content: {doc.page_content}")
+        print("-" * 50)
+
+def create_vectordb(splits, embeddings):
+    vectordb = Chroma.from_texts(
+        texts = [split["content"] for split in splits],
+        embedding = embeddings,
+        metadatas = [split["metadata"] for split in splits],
+        persist_directory=f"{os.getcwd()}/chroma_data"
     )
 
-    chunks = text_splitter.split_documents(header_splits)
-    return chunks
+    return vectordb
 
-# 임베딩 모델 로드
-embeddings = HuggingFaceEmbeddings(
-    model_name="paraphrase-multilingual-mpnet-base-v2",
-    model_kwargs={"device": "cuda"},
-    encode_kwargs={"normalize_embeddings": False}
-)
+def create_embeddings():
+    embeddings = HuggingFaceEmbeddings(
+        model_name="intfloat/multilingual-e5-large-instruct",
+        model_kwargs={"device": "cuda"},
+        encode_kwargs={"normalize_embeddings": True}
+    )
 
-# RAG 데이터 로드
-chunks = load_and_split_md(os.getcwd() + "/data/platform_information_rag2.md")
+    return embeddings
 
-chroma_client = chromadb.PersistentClient(path=os.getcwd() + "/chroma_data")
-
-vectorstore = Chroma.from_documents(
-    chunks, 
-    embeddings, 
-    client=chroma_client
-)
-
-retriever = vectorstore.as_retriever(
-    search_type="similarity",
-    search_kwargs={
-        "k": 4,  # 상위 4개 문서만 반환
+def enhance_query(query):
+    query_terms = {
+        "시스템 상태":  ["시스템 상태", "시스템 모니터링", "상태 확인", "시스템 리소스",
+        "CPU", "RAM", "메모리", "디스크", "사용량"]
     }
-)
 
-result = retriever.invoke("시스템 상태 보는 방법")
-print(result)
+    enhanced_terms = []
+    for key, terms in query_terms.items():
+        if key in query:
+            enhanced_terms.extend(terms)
+    
+    return " ".join([query] + enhanced_terms)
+
+
+mark_down_path = os.getcwd() + "/data/platform_information_rag2.md"
+
+splits = load_and_split_md(mark_down_path)
+
+embeddings = create_embeddings()
+
+vectordb = create_vectordb(splits, embeddings)
+
+retriever = vectordb.as_retriever(search_kwargs={"k": 5})
+
+# result = retriever.invoke("시스템 상태 보는 방법")
+# print(result)
 # formatted_result = format_docs(result)
 # print(formatted_result)
